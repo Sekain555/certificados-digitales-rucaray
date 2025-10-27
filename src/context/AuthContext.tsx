@@ -12,6 +12,7 @@ interface AuthContextType {
   user: UserProfile | null;
   loading: boolean;
   logout: () => Promise<void>;
+  login: (email: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,6 +25,15 @@ const getRoleFromEmail = (email: string): UserRole => {
   return 'trabajador';
 }
 
+const MOCK_USERS: { [key: string]: UserProfile } = {
+    'admin@rucaray.cl': { uid: 'admin-uid', email: 'admin@rucaray.cl', displayName: 'Admin Rucaray', photoURL: null, role: 'admin' },
+    'supervisor@rucaray.cl': { uid: 'supervisor-uid', email: 'supervisor@rucaray.cl', displayName: 'Supervisor de Calidad', photoURL: null, role: 'supervisor' },
+    'trabajador@rucaray.cl': { uid: 'trabajador-uid', email: 'trabajador@rucaray.cl', displayName: 'Juan Trabajador', photoURL: null, role: 'trabajador' },
+    'jefe@rucaray.cl': { uid: 'jefe-uid', email: 'jefe@rucaray.cl', displayName: 'Jefe de Planta', photoURL: null, role: 'jefe' },
+    'encargada@rucaray.cl': { uid: 'encargada-uid', email: 'encargada@rucaray.cl', displayName: 'Encargada de Bodega', photoURL: null, role: 'encargada' },
+};
+
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,24 +41,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser: User | null) => {
-      if (firebaseUser) {
-        const userRole = getRoleFromEmail(firebaseUser.email || '');
-        const userProfile: UserProfile = {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
-          photoURL: firebaseUser.photoURL,
-          role: userRole,
-        };
-        setUser(userProfile);
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
   }, []);
 
   const isProtectedRoute = pathname.startsWith('/dashboard');
@@ -59,12 +56,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [user, loading, pathname, router, isProtectedRoute]);
 
+  const login = async (email: string) => {
+    const mockUser = MOCK_USERS[email];
+    if (mockUser) {
+        setUser(mockUser);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        router.push('/dashboard');
+    } else {
+        throw new Error("Usuario no encontrado");
+    }
+  };
+
   const logout = async () => {
-    await signOut(auth);
+    setUser(null);
+    localStorage.removeItem('user');
     router.push('/login');
   };
   
-  const value = useMemo(() => ({ user, loading, logout }), [user, loading]);
+  const value = useMemo(() => ({ user, loading, logout, login }), [user, loading]);
 
   if (loading && isProtectedRoute) {
     return (
