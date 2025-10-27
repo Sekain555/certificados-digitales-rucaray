@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eraser, Save } from "lucide-react";
 
 interface SignaturePadProps {
@@ -20,7 +20,7 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
   };
 
   const save = () => {
-    if (sigPad.current) {
+    if (sigPad.current && !sigPad.current.isEmpty()) {
       const dataUrl = sigPad.current.getTrimmedCanvas().toDataURL("image/png");
       onSave(dataUrl);
       clear();
@@ -28,16 +28,19 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
   };
   
   const handleDraw = () => {
-    setIsSigned(!sigPad.current?.isEmpty() ?? false);
+    if (sigPad.current) {
+        setIsSigned(!sigPad.current.isEmpty());
+    }
   }
 
   return (
-    <Card>
+    <Card className="max-w-2xl mx-auto w-full">
       <CardHeader>
-        <CardTitle>Firma Digital</CardTitle>
+        <CardTitle>Firmar Registro</CardTitle>
+        <CardDescription>Dibuja tu firma en el recuadro para validar el registro.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="rounded-lg border bg-background">
+        <div className="rounded-lg border bg-white">
           <SignatureCanvas
             ref={sigPad}
             penColor="black"
@@ -51,7 +54,7 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
             <Eraser className="mr-2 h-4 w-4" />
             Limpiar
         </Button>
-        <Button onClick={save} disabled={!isSigned}>
+        <Button onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
             <Save className="mr-2 h-4 w-4" />
             Guardar Firma
         </Button>

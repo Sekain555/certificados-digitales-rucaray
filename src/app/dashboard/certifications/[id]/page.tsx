@@ -86,6 +86,8 @@ export default function CertificationDetailPage() {
         doc.setFont("helvetica", "normal");
         certification.signatures.forEach((sig, index) => {
             doc.text(`${sig.signedBy} (${sig.role}) - ${sig.signedAt.toLocaleDateString()}`, 20, 160 + (index * 10));
+            // Note: Adding images to jsPDF requires more complex handling, like converting them to data URIs first.
+            // This is a simplified example.
         });
     }
 
