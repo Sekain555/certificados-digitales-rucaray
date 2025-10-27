@@ -9,6 +9,7 @@ import { Loader2 } from 'lucide-react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export function LoginForm() {
   const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ export function LoginForm() {
       console.error(error);
       toast({
         variant: "destructive",
-        title: "Error de inicio de sesión",
+        title: "Correo o contraseña incorrectos",
         description: "Las credenciales son incorrectas. Por favor, inténtelo de nuevo.",
       });
     } finally {
@@ -50,7 +51,7 @@ export function LoginForm() {
   return (
     <form onSubmit={handleLogin} className="space-y-6">
       <div className="space-y-2">
-        <Label htmlFor="email">Correo electrónico</Label>
+        <Label htmlFor="email">Correo corporativo</Label>
         <Input
           id="email"
           type="email"
@@ -59,6 +60,7 @@ export function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
+          className="h-12 text-base"
         />
       </div>
       <div className="space-y-2">
@@ -70,18 +72,19 @@ export function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
+          className="h-12 text-base"
         />
       </div>
       <div>
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full h-12 text-base" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Iniciar Sesión
+          Iniciar sesión
         </Button>
       </div>
-      <div className="text-center text-sm">
-        <p className="text-muted-foreground">
-          Use un correo con 'admin' para rol de admin (ej. admin@test.com).
-        </p>
+       <div className="text-center">
+        <Link href="#" className="text-sm hover:underline" style={{ color: '#3A84DF' }}>
+            ¿Olvidaste tu contraseña?
+        </Link>
       </div>
     </form>
   );
