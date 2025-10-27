@@ -20,6 +20,7 @@ import {
   Home,
   FileText,
   Folder,
+  Shield,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import RucarayLogo from "../RucarayLogo";
@@ -83,6 +84,15 @@ export function Header() {
                 Categorías
               </Link>
             )}
+             {user?.role === 'admin' && (
+                <Link
+                  href="/dashboard/settings"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Shield className="h-5 w-5" />
+                  Administración
+                </Link>
+              )}
             <Link
               href="/dashboard/settings"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -131,6 +141,14 @@ export function Header() {
               <span>Perfil</span>
             </Link>
           </DropdownMenuItem>
+           {user?.role === 'admin' && (
+            <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings">
+                    <Shield className="mr-2 h-4 w-4" />
+                    <span>Administración</span>
+                </Link>
+            </DropdownMenuItem>
+           )}
           <DropdownMenuItem asChild>
              <Link href="/dashboard/settings">
               <Settings className="mr-2 h-4 w-4" />

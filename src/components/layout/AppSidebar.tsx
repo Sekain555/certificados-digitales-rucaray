@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { Home, FileText, Folder, Settings } from "lucide-react";
+import { Home, FileText, Folder, Settings, Shield } from "lucide-react";
 import RucarayLogo from "../RucarayLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";
@@ -53,6 +53,9 @@ export function AppSidebar() {
           )}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+          {user?.role === 'admin' && (
+            <NavLink href="/dashboard/settings" icon={Shield} label="Administración" />
+          )}
           <NavLink href="/dashboard/settings" icon={Settings} label="Ajustes" />
         </nav>
       </TooltipProvider>
