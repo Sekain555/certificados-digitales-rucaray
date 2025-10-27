@@ -20,6 +20,8 @@ import {
   Home,
   FileText,
   Folder,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import RucarayLogo from "../RucarayLogo";
@@ -97,6 +99,11 @@ export function Header() {
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
+       <Button variant="ghost" size="icon" className="md:ml-4">
+          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -120,13 +127,17 @@ export function Header() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Perfil</span>
+          <DropdownMenuItem asChild>
+            <Link href="/dashboard/settings">
+              <User className="mr-2 h-4 w-4" />
+              <span>Perfil</span>
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Ajustes</span>
+          <DropdownMenuItem asChild>
+             <Link href="/dashboard/settings">
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Ajustes</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={logout}>
