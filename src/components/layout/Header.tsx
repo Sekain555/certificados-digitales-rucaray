@@ -20,13 +20,12 @@ import {
   Home,
   FileText,
   Folder,
-  Sun,
-  Moon,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import RucarayLogo from "../RucarayLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "../ThemeToggle";
 
 export function Header() {
   const { user, logout } = useAuth();
@@ -50,8 +49,8 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
-          <SheetHeader className="sr-only">
-            <SheetTitle>Menú de Navegación</SheetTitle>
+          <SheetHeader>
+            <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
           </SheetHeader>
           <nav className="grid gap-6 text-lg font-medium">
             <Link
@@ -102,11 +101,7 @@ export function Header() {
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
-       <Button variant="ghost" size="icon" className="md:ml-4">
-          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
+       <ThemeToggle />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
