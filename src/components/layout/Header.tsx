@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -10,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   PanelLeft,
   Search,
@@ -50,9 +51,6 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
-          <SheetHeader>
-             <SheetTitle className="sr-only">Menú de Navegación</SheetTitle>
-          </SheetHeader>
           <nav className="grid gap-6 text-lg font-medium mt-4">
             <Link
               href="/dashboard"
@@ -86,7 +84,7 @@ export function Header() {
             )}
              {user?.role === 'admin' && (
                 <Link
-                  href="/dashboard/settings"
+                  href="/dashboard/administration"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Shield className="h-5 w-5" />
@@ -98,7 +96,7 @@ export function Header() {
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Settings className="h-5 w-5" />
-              Ajustes
+              Perfil
             </Link>
           </nav>
         </SheetContent>
@@ -143,18 +141,12 @@ export function Header() {
           </DropdownMenuItem>
            {user?.role === 'admin' && (
             <DropdownMenuItem asChild>
-                <Link href="/dashboard/settings">
+                <Link href="/dashboard/administration">
                     <Shield className="mr-2 h-4 w-4" />
                     <span>Administración</span>
                 </Link>
             </DropdownMenuItem>
            )}
-          <DropdownMenuItem asChild>
-             <Link href="/dashboard/settings">
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Ajustes</span>
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={logout}>
             <LogOut className="mr-2 h-4 w-4" />
