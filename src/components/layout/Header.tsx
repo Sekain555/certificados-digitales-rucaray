@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import {
   PanelLeft,
   Search,
@@ -51,6 +51,9 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
+          <SheetHeader className="text-left">
+            <SheetTitle className="sr-only">Rucaray</SheetTitle>
+          </SheetHeader>
           <nav className="grid gap-6 text-lg font-medium mt-4">
             <Link
               href="/dashboard"
@@ -102,12 +105,7 @@ export function Header() {
         </SheetContent>
       </Sheet>
       <div className="relative ml-auto flex-1 md:grow-0">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Buscar..."
-          className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
-        />
+        {/* Search input removed from header as it is now in the history page */}
       </div>
        <ThemeToggle />
       <DropdownMenu>
