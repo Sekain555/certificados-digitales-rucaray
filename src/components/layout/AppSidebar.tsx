@@ -49,7 +49,6 @@ export function AppSidebar() {
           </Link>
           <NavLink href="/dashboard" icon={Home} label="Dashboard" />
           <NavLink href="/dashboard/certifications" icon={FileText} label="Historial" />
-           <NavLink href="/dashboard/higiene" icon={ClipboardCheck} label="Inspección Higiene" />
           {user?.role === 'admin' && (
             <NavLink href="/dashboard/categories" icon={Folder} label="Categorías" />
           )}
