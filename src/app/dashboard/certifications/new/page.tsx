@@ -1,7 +1,7 @@
 
 "use client";
 
-import { ArrowLeft, FileText } from "lucide-react";
+import { ArrowLeft, FileText, SprayCan } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,6 +12,12 @@ const recordTypes = [
         description: "Formulario para la inspección de higiene, calidad e inocuidad en la planta.",
         href: "/dashboard/higiene",
         icon: FileText
+    },
+    {
+        title: "Limpieza y Sanitización de Entornos (RLSEP)",
+        description: "Registra las actividades de limpieza y sanitización de los entornos de la planta.",
+        href: "/dashboard/limpieza-planta",
+        icon: SprayCan
     },
     // Futuros tipos de registros se añadirán aquí
 ];
