@@ -42,13 +42,14 @@ export function AppSidebar() {
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
             href="/dashboard"
-            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+            className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-white text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base p-1"
           >
-            <RucarayLogo className="h-6 w-auto transition-all group-hover:scale-110" />
+            <RucarayLogo className="h-full w-full transition-all group-hover:scale-110" />
             <span className="sr-only">Rucaray</span>
           </Link>
           <NavLink href="/dashboard" icon={Home} label="Dashboard" />
-          <NavLink href="/dashboard/certifications" icon={FileText} label="Certificaciones" />
+          <NavLink href="/dashboard/certifications" icon={FileText} label="Historial" />
+           <NavLink href="/dashboard/higiene" icon={ClipboardCheck} label="Inspección Higiene" />
           {user?.role === 'admin' && (
             <NavLink href="/dashboard/categories" icon={Folder} label="Categorías" />
           )}
