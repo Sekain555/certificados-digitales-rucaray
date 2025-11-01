@@ -19,6 +19,7 @@ import { SignaturePad } from "@/components/certifications/SignaturePad";
 import { useToast } from "@/hooks/use-toast";
 import jsPDF from 'jspdf';
 import Image from "next/image";
+import RucarayLogo from "@/components/RucarayLogo";
 
 const mockCertification: CertificationRecord = {
     id: 'cert2',
@@ -45,6 +46,8 @@ const statusVariant: { [key in CertificationStatus]: "default" | "secondary" | "
     rechazado: "destructive"
 };
 
+const logoBase64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAMAAACMs/F/AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAzUExURQAAABg74gAk3gAv4gBc6gAy4gA04wA75AA95QA/5gBC5wBG6ABO6QBV6wBa7ABt7gB+8AAz9yMAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAIQSURBVHja7d3BaoMwEAXQxVJF8P+/9EJjGE0pWNo5fJvchg3LGEJImjxt+l+SJH9ZlryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kuQDkryS5AOSvJLkA5K8kvS3+251fW2Tz/ZAnLz/uM4A4AacgC4vXzYtu/Tf/o/CgCjSwD0/yMAAAB/CgDMawAAGMZeAACMeQcA4/9mAACMKAAAjCEAYBgPAGB4AADAAAIAwxYAYBwDAMAQCQDAWAwAwBgAAMAYBQDAeAwAgDECAIAxAgCAMQIAGMEIAmBEAACM0wEAYJwCAGAcAgBgHAcAYAgEAGAsBACAsQAAgLEKAICxCAWAYzQAgPEYAIDxGACA8RgAgPEYAICxAQCAcQgAgHEIAIBxCACAcQgAgHEIAIBxCACAcQQAwDgGAMAYBADAeAwAwBgEAMAYAgDAeAYAgDEDAIAxBQCAMQIAgDECAIAxBADAGAIAGMECAMBIBAAweAAA4DwHAMAYCADAWAYAwBgHAMAwAADAMAQAwHAEAICxCgCA8QAAgLECAICxDAAAYBkDAMAyZQAAwAIAAMxZAAAAAAAADwEAsB4AAKv7AABY/QIAADQAAIANDgCAvQ4AwLoOAAC7DgDAAAYAAADGQgAAzGoAAMxqAAAMagAA3AMAAADyLklS/5S/Kzu/tP9aASoAAAAASUVORK5CYII=';
+
 export default function CertificationDetailPage() {
   const params = useParams();
   const { toast } = useToast();
@@ -61,32 +64,35 @@ export default function CertificationDetailPage() {
 
   const generatePDF = () => {
     const doc = new jsPDF();
+
+    doc.addImage(logoBase64, 'PNG', 15, 10, 40, 20);
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.text("Certificación Rucaray Digital", 105, 20, { align: "center" });
+    doc.text("Certificación Rucaray Digital", 105, 40, { align: "center" });
 
     doc.setFontSize(14);
-    doc.text(certification.title, 20, 40);
+    doc.text(certification.title, 20, 60);
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
-    doc.text(`ID: ${certification.id}`, 20, 50);
-    doc.text(`Estado: ${certification.status}`, 20, 57);
-    doc.text(`Responsable: ${certification.responsible}`, 20, 64);
-    doc.text(`Fecha: ${certification.createdAt.toLocaleDateString()}`, 20, 71);
+    doc.text(`ID: ${certification.id}`, 20, 70);
+    doc.text(`Estado: ${certification.status}`, 20, 77);
+    doc.text(`Responsable: ${certification.responsible}`, 20, 84);
+    doc.text(`Fecha: ${certification.createdAt.toLocaleDateString()}`, 20, 91);
 
     doc.setFont("helvetica", "bold");
-    doc.text("Descripción:", 20, 85);
+    doc.text("Descripción:", 20, 105);
     doc.setFont("helvetica", "normal");
     const descriptionLines = doc.splitTextToSize(certification.description, 170);
-    doc.text(descriptionLines, 20, 92);
+    doc.text(descriptionLines, 20, 112);
     
     if (certification.signatures.length > 0) {
         doc.setFont("helvetica", "bold");
-        doc.text("Firmas:", 20, 150);
+        doc.text("Firmas:", 20, 160);
         doc.setFont("helvetica", "normal");
         certification.signatures.forEach((sig, index) => {
-            doc.text(`${sig.signedBy} (${sig.role}) - ${sig.signedAt.toLocaleDateString()}`, 20, 160 + (index * 10));
+            doc.text(`${sig.signedBy} (${sig.role}) - ${sig.signedAt.toLocaleDateString()}`, 20, 170 + (index * 10));
             // Note: Adding images to jsPDF requires more complex handling, like converting them to data URIs first.
             // This is a simplified example.
         });

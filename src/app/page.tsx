@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-16 flex items-center bg-background border-b">
         <Link href="/" className="flex items-center justify-center gap-2">
-          <RucarayLogo className="h-8 w-8 text-primary" />
+          <RucarayLogo className="h-8 w-auto" />
           <span className="font-semibold text-lg">Certificaciones Rucaray Digital</span>
         </Link>
       </header>

@@ -84,7 +84,7 @@ export default function HigieneInspectionPage() {
     <div className="space-y-6">
       <header className="rounded-lg border bg-card text-card-foreground shadow-sm p-4">
         <div className="flex items-center justify-between">
-            <RucarayLogo className="h-12 w-auto text-primary" />
+            <RucarayLogo className="h-16 w-auto" />
             <div className="text-center">
                 <h1 className="text-lg font-bold font-headline text-primary">
                     REGISTRO DE INSPECCIÓN DE HIGIENE, CALIDAD E INOCUIDAD – UVA

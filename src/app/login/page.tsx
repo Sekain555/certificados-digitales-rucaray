@@ -11,7 +11,7 @@ export default function LoginPage() {
       </header>
       <main className="w-full max-w-sm">
         <div className="text-center mb-8">
-            <RucarayLogo className="mx-auto h-16 w-auto text-primary" />
+            <RucarayLogo className="mx-auto h-24 w-auto" />
         </div>
         <Card className="shadow-lg">
           <CardHeader className="text-center">

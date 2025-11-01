@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useState, useEffect, ReactNode, useMemo } from 'react';
@@ -78,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   if (loading && isProtectedRoute) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-background">
-        <RucarayLogo className="h-16 w-16 text-primary mb-4" />
+        <RucarayLogo className="h-24 w-auto text-primary mb-4" />
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
         <p className="mt-4 text-muted-foreground">Cargando...</p>
       </div>
