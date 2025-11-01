@@ -1,7 +1,7 @@
 
 "use client";
 
-import { ArrowLeft, FileText, SprayCan } from "lucide-react";
+import { ArrowLeft, FileText, SprayCan, HandSoap } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,7 +19,12 @@ const recordTypes = [
         href: "/dashboard/limpieza-planta",
         icon: SprayCan
     },
-    // Futuros tipos de registros se añadirán aquí
+    {
+        title: "Limpieza y Sanitización de Baños (RLSIS)",
+        description: "Registra las actividades de limpieza en instalaciones sanitarias.",
+        href: "/dashboard/limpieza-banos",
+        icon: HandSoap
+    },
 ];
 
 export default function NewCertificationTypePage() {
