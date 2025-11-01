@@ -1,7 +1,7 @@
-import type { SVGProps } from 'react';
+import type { ComponentProps } from 'react';
 import Image from 'next/image';
 
-const RucarayLogo = (props: SVGProps<SVGSVGElement>) => (
+const RucarayLogo = (props: ComponentProps<typeof Image>) => (
   <Image
     src="/logo-rucaray.png"
     alt="Rucaray Logo"
