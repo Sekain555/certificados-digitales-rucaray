@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
-import { Home, FileText, Folder, Settings, Shield } from "lucide-react";
+import { Home, FileText, Folder, Settings, Shield, ClipboardCheck } from "lucide-react";
 import RucarayLogo from "../RucarayLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { usePathname } from "next/navigation";
@@ -49,6 +49,7 @@ export function AppSidebar() {
           </Link>
           <NavLink href="/dashboard" icon={Home} label="Dashboard" />
           <NavLink href="/dashboard/certifications" icon={FileText} label="Certificaciones" />
+          <NavLink href="/dashboard/higiene" icon={ClipboardCheck} label="Inspección de Higiene" />
           {user?.role === 'admin' && (
             <NavLink href="/dashboard/categories" icon={Folder} label="Categorías" />
           )}

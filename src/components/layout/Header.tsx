@@ -22,6 +22,7 @@ import {
   FileText,
   Folder,
   Shield,
+  ClipboardCheck,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import RucarayLogo from "../RucarayLogo";
@@ -52,7 +53,7 @@ export function Header() {
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
           <SheetHeader className="text-left">
-            <SheetTitle className="sr-only">Rucaray</SheetTitle>
+            <SheetTitle>Menú</SheetTitle>
           </SheetHeader>
           <nav className="grid gap-6 text-lg font-medium mt-4">
             <Link
@@ -75,6 +76,13 @@ export function Header() {
             >
               <FileText className="h-5 w-5" />
               Certificaciones
+            </Link>
+             <Link
+              href="/dashboard/higiene"
+              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+            >
+              <ClipboardCheck className="h-5 w-5" />
+              Inspección de Higiene
             </Link>
             {user?.role === 'admin' && (
                <Link
