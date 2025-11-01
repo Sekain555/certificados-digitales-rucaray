@@ -13,14 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { SignaturePad } from "@/components/certifications/SignaturePad";
 import RucarayLogo from "@/components/RucarayLogo";
@@ -89,8 +81,8 @@ export default function LimpiezaPlantaPage() {
                 <div className="grid grid-cols-3">
                     <div className="flex flex-col items-center justify-center p-2 border-r">
                         <RucarayLogo className="h-12 w-auto" />
-                        <p className="font-semibold mt-1">Packing y Servicios Rucaray</p>
-                        <p className="text-sm">Planta Los Lirios</p>
+                        <p className="font-semibold mt-1 text-center">Packing y Servicios Rucaray</p>
+                        <p className="text-sm text-center">Planta Los Lirios</p>
                     </div>
                     <div className="flex flex-col items-center justify-center p-2 text-center">
                          <p className="font-semibold">Sistema de Gestión</p>
@@ -121,92 +113,98 @@ export default function LimpiezaPlantaPage() {
                     <CardDescription>Complete una fila por cada sector. La fecha es general para todo el registro.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                     <div className="mb-6">
+                    <div className="mb-6">
                         <Label htmlFor="registro-date">Fecha General del Registro</Label>
                         <Input id="registro-date" type="date" className="w-full md:w-1/3" />
                     </div>
-                    <div className="overflow-x-auto">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead className="min-w-[150px]">Sector</TableHead>
-                                    <TableHead colSpan={2} className="text-center border-l border-r">Retiro de Basura</TableHead>
-                                    <TableHead colSpan={2} className="text-center border-l border-r">Lavado</TableHead>
-                                    <TableHead colSpan={2} className="text-center border-l border-r">Sanitización</TableHead>
-                                    <TableHead className="min-w-[150px]">Nombre Responsable</TableHead>
-                                    <TableHead className="min-w-[220px]">Firma Responsable</TableHead>
-                                    <TableHead className="min-w-[200px]">Observacion</TableHead>
-                                    <TableHead className="min-w-[220px]">V°B° supervisor</TableHead>
-                                    <TableHead><span className="sr-only">Acciones</span></TableHead>
-                                </TableRow>
-                                <TableRow>
-                                    <TableHead><span className="sr-only">Sector</span></TableHead>
-                                    <TableHead className="text-center border-l">Si</TableHead>
-                                    <TableHead className="text-center border-r">No</TableHead>
-                                    <TableHead className="text-center border-l">Si</TableHead>
-                                    <TableHead className="text-center border-r">No</TableHead>
-                                    <TableHead className="border-l">Producto</TableHead>
-                                    <TableHead className="border-r">Dosis</TableHead>
-                                    <TableHead><span className="sr-only">Nombre</span></TableHead>
-                                    <TableHead><span className="sr-only">Firma</span></TableHead>
-                                    <TableHead><span className="sr-only">Observacion</span></TableHead>
-                                    <TableHead><span className="sr-only">V°B°</span></TableHead>
-                                    <TableHead><span className="sr-only">Acciones</span></TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {activities.map((activity) => (
-                                    <TableRow key={activity.id}>
-                                        <TableCell>
-                                            <Input placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
-                                        </TableCell>
-                                        <TableCell className="text-center border-l">
-                                            <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="justify-center">
-                                                <RadioGroupItem value="si" id={`retiro-si-${activity.id}`} />
-                                            </RadioGroup>
-                                        </TableCell>
-                                        <TableCell className="text-center border-r">
-                                            <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', 'no')} className="justify-center">
-                                                 <RadioGroupItem value="no" id={`retiro-no-${activity.id}`} />
-                                            </RadioGroup>
-                                        </TableCell>
-                                         <TableCell className="text-center border-l">
-                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', 'si')} className="justify-center">
-                                                <RadioGroupItem value="si" id={`lavado-si-${activity.id}`} />
-                                            </RadioGroup>
-                                        </TableCell>
-                                        <TableCell className="text-center border-r">
-                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', 'no')} className="justify-center">
-                                                 <RadioGroupItem value="no" id={`lavado-no-${activity.id}`} />
-                                            </RadioGroup>
-                                        </TableCell>
-                                        <TableCell className="border-l">
-                                            <Input placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
-                                        </TableCell>
-                                        <TableCell className="border-r">
-                                            <Input placeholder="Dosis" value={activity.sanitizacionDosis} onChange={e => handleActivityChange(activity.id, 'sanitizacionDosis', e.target.value)} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Input placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Textarea placeholder="Observaciones..." value={activity.observation} onChange={e => handleActivityChange(activity.id, 'observation', e.target.value)} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveRow(activity.id)} disabled={activities.length <= 1}>
-                                                <Trash2 className="h-4 w-4 text-destructive" />
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+
+                    {/* Responsive Grid Header (visible on md screens and up) */}
+                    <div className="hidden md:grid md:grid-cols-[1fr_80px_80px_1fr_1fr_1fr_1.5fr_1fr_1.5fr_auto] gap-4 items-center p-2 font-semibold text-sm text-muted-foreground border-b mb-4">
+                        <div className="text-center">Sector</div>
+                        <div className="text-center">Retiro Basura</div>
+                        <div className="text-center">Lavado</div>
+                        <div className="text-center">Producto Sanit.</div>
+                        <div className="text-center">Dosis Sanit.</div>
+                        <div className="text-center">Responsable</div>
+                        <div className="text-center">Firma Responsable</div>
+                        <div className="text-center">Observación</div>
+                        <div className="text-center">V°B° Supervisor</div>
+                        <div className="w-8"></div>
+                    </div>
+
+                    {/* Activities List */}
+                    <div className="space-y-4">
+                        {activities.map((activity, index) => (
+                            <div key={activity.id} className="grid grid-cols-1 md:grid-cols-[1fr_80px_80px_1fr_1fr_1fr_1.5fr_1fr_1.5fr_auto] gap-4 md:gap-2 items-start p-4 border rounded-lg md:p-2 md:border-0 md:border-b">
+                                
+                                {/* Sector */}
+                                <div className="grid grid-cols-2 md:block gap-2">
+                                    <Label htmlFor={`sector-${activity.id}`} className="font-semibold md:hidden">Sector</Label>
+                                    <Input id={`sector-${activity.id}`} placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
+                                </div>
+                                
+                                {/* Retiro Basura */}
+                                <div className="grid grid-cols-2 md:flex md:flex-col md:items-center gap-2">
+                                    <Label className="font-semibold md:hidden">Retiro Basura</Label>
+                                    <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="flex gap-4 justify-start md:justify-center">
+                                        <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`retiro-si-${activity.id}`} /><Label htmlFor={`retiro-si-${activity.id}`}>Si</Label></div>
+                                        <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`retiro-no-${activity.id}`} /><Label htmlFor={`retiro-no-${activity.id}`}>No</Label></div>
+                                    </RadioGroup>
+                                </div>
+
+                                {/* Lavado */}
+                                <div className="grid grid-cols-2 md:flex md:flex-col md:items-center gap-2">
+                                    <Label className="font-semibold md:hidden">Lavado</Label>
+                                    <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="flex gap-4 justify-start md:justify-center">
+                                        <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`lavado-si-${activity.id}`} /><Label htmlFor={`lavado-si-${activity.id}`}>Si</Label></div>
+                                        <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`lavado-no-${activity.id}`} /><Label htmlFor={`lavado-no-${activity.id}`}>No</Label></div>
+                                    </RadioGroup>
+                                </div>
+
+                                {/* Sanitización Producto */}
+                                <div className="grid grid-cols-2 md:block gap-2">
+                                    <Label htmlFor={`sanit-prod-${activity.id}`} className="font-semibold md:hidden">Producto Sanit.</Label>
+                                    <Input id={`sanit-prod-${activity.id}`} placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
+                                </div>
+                                
+                                {/* Sanitización Dosis */}
+                                <div className="grid grid-cols-2 md:block gap-2">
+                                    <Label htmlFor={`sanit-dosis-${activity.id}`} className="font-semibold md:hidden">Dosis Sanit.</Label>
+                                    <Input id={`sanit-dosis-${activity.id}`} placeholder="Dosis" value={activity.sanitizacionDosis} onChange={e => handleActivityChange(activity.id, 'sanitizacionDosis', e.target.value)} />
+                                </div>
+
+                                {/* Nombre Responsable */}
+                                <div className="grid grid-cols-2 md:block gap-2">
+                                    <Label htmlFor={`resp-name-${activity.id}`} className="font-semibold md:hidden">Responsable</Label>
+                                    <Input id={`resp-name-${activity.id}`} placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
+                               _</div>
+
+                                {/* Firma Responsable */}
+                                <div className="grid grid-cols-1 gap-2">
+                                    <Label className="font-semibold md:hidden">Firma Responsable</Label>
+                                    <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} simple />
+                                </div>
+
+                                {/* Observacion */}
+                                <div className="grid grid-cols-1 gap-2">
+                                     <Label htmlFor={`obs-${activity.id}`} className="font-semibold md:hidden">Observación</Label>
+                                     <Textarea id={`obs-${activity.id}`} placeholder="Observaciones..." value={activity.observation} onChange={e => handleActivityChange(activity.id, 'observation', e.target.value)} className="min-h-[60px]" />
+                                </div>
+
+                                {/* V°B° Supervisor */}
+                                <div className="grid grid-cols-1 gap-2">
+                                     <Label className="font-semibold md:hidden">V°B° Supervisor</Label>
+                                     <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} simple />
+                                </div>
+
+                                {/* Acciones */}
+                                <div className="flex items-center justify-end md:justify-center">
+                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveRow(activity.id)} disabled={activities.length <= 1}>
+                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     <Button variant="outline" size="sm" onClick={handleAddRow} className="mt-4">
                         <PlusCircle className="mr-2 h-4 w-4" />

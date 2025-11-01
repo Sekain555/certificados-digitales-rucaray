@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRef, useState } from "react";
@@ -5,12 +6,14 @@ import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eraser, Save } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SignaturePadProps {
   onSave: (signature: string) => void;
+  simple?: boolean; // New prop for a more compact version
 }
 
-export function SignaturePad({ onSave }: SignaturePadProps) {
+export function SignaturePad({ onSave, simple = false }: SignaturePadProps) {
   const sigPad = useRef<SignatureCanvas>(null);
   const [isSigned, setIsSigned] = useState(false);
 
@@ -31,6 +34,31 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
     if (sigPad.current) {
         setIsSigned(!sigPad.current.isEmpty());
     }
+  }
+
+  if (simple) {
+    return (
+      <div className="w-full space-y-2">
+        <div className="rounded-lg border bg-white aspect-video w-full">
+            <SignatureCanvas
+              ref={sigPad}
+              penColor="black"
+              canvasProps={{ className: "w-full h-full rounded-md" }}
+              onEnd={handleDraw}
+            />
+        </div>
+        <div className="flex justify-end gap-2">
+            <Button variant="outline" size="sm" onClick={clear} disabled={!isSigned}>
+                <Eraser className="mr-2 h-4 w-4" />
+                Limpiar
+            </Button>
+            <Button size="sm" onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
+                <Save className="mr-2 h-4 w-4" />
+                Guardar
+            </Button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -62,3 +90,5 @@ export function SignaturePad({ onSave }: SignaturePadProps) {
     </Card>
   );
 }
+
+    
