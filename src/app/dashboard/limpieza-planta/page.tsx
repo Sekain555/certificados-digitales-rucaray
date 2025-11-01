@@ -129,14 +129,14 @@ export default function LimpiezaPlantaPage() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead className="w-[150px]">Sector</TableHead>
+                                    <TableHead className="min-w-[150px]">Sector</TableHead>
                                     <TableHead colSpan={2} className="text-center border-l border-r">Retiro de Basura</TableHead>
                                     <TableHead colSpan={2} className="text-center border-l border-r">Lavado</TableHead>
                                     <TableHead colSpan={2} className="text-center border-l border-r">Sanitización</TableHead>
                                     <TableHead className="min-w-[150px]">Nombre Responsable</TableHead>
-                                    <TableHead className="min-w-[200px]">Firma Responsable</TableHead>
+                                    <TableHead className="min-w-[220px]">Firma Responsable</TableHead>
                                     <TableHead className="min-w-[200px]">Observacion</TableHead>
-                                    <TableHead className="min-w-[200px]">V°B° supervisor</TableHead>
+                                    <TableHead className="min-w-[220px]">V°B° supervisor</TableHead>
                                     <TableHead><span className="sr-only">Acciones</span></TableHead>
                                 </TableRow>
                                 <TableRow>
@@ -166,17 +166,17 @@ export default function LimpiezaPlantaPage() {
                                             </RadioGroup>
                                         </TableCell>
                                         <TableCell className="text-center border-r">
-                                            <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="justify-center">
+                                            <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', 'no')} className="justify-center">
                                                  <RadioGroupItem value="no" id={`retiro-no-${activity.id}`} />
                                             </RadioGroup>
                                         </TableCell>
                                          <TableCell className="text-center border-l">
-                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="justify-center">
+                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', 'si')} className="justify-center">
                                                 <RadioGroupItem value="si" id={`lavado-si-${activity.id}`} />
                                             </RadioGroup>
                                         </TableCell>
                                         <TableCell className="text-center border-r">
-                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="justify-center">
+                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', 'no')} className="justify-center">
                                                  <RadioGroupItem value="no" id={`lavado-no-${activity.id}`} />
                                             </RadioGroup>
                                         </TableCell>
@@ -259,3 +259,5 @@ export default function LimpiezaPlantaPage() {
         </div>
     );
 }
+
+    
