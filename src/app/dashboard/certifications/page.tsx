@@ -40,13 +40,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
-const mockCertifications: CertificationRecord[] = [
-    { id: 'cert1', title: 'Inducción de Seguridad para Nuevos Empleados', description: '', categoryId: 'seguridad', responsible: 'user1', status: 'completado', createdAt: new Date('2023-10-01'), updatedAt: new Date(), signatures: [], attachments: [] },
-    { id: 'cert2', title: 'Uso de Extintores', description: '', categoryId: 'seguridad', responsible: 'user2', status: 'en progreso', createdAt: new Date('2023-10-05'), updatedAt: new Date(), signatures: [], attachments: [] },
-    { id: 'cert3', title: 'Control de Calidad - Lote 34A', description: '', categoryId: 'calidad', responsible: 'user3', status: 'pendiente', createdAt: new Date('2023-10-10'), updatedAt: new Date(), signatures: [], attachments: [] },
-    { id: 'cert4', title: 'Mantenimiento Preventivo de Máquina 2', description: '', categoryId: 'produccion', responsible: 'user4', status: 'completado', createdAt: new Date('2023-09-28'), updatedAt: new Date(), signatures: [], attachments: [] },
-    { id: 'cert5', title: 'Capacitación de Bodega', description: '', categoryId: 'logistica', responsible: 'user5', status: 'rechazado', createdAt: new Date('2023-09-25'), updatedAt: new Date(), signatures: [], attachments: [] },
-];
+const mockCertifications: CertificationRecord[] = [];
 
 const statusVariant: { [key in CertificationStatus]: "default" | "secondary" | "outline" | "destructive" } = {
     completado: "default",
@@ -137,37 +131,45 @@ export default function CertificationsPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {mockCertifications.map((cert) => (
-                    <TableRow key={cert.id} className="hover:bg-muted/50">
-                        <TableCell className="font-medium max-w-xs truncate">
-                            <Link href={`/dashboard/certifications/${cert.id}`} className="hover:underline">
-                                {cert.title}
-                            </Link>
+                    {mockCertifications.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={6} className="h-24 text-center">
+                          No hay registros disponibles.
                         </TableCell>
-                        <TableCell>
-                          <Badge variant="outline">{categoryLabels[cert.categoryId] || 'Desconocida'}</Badge>
-                        </TableCell>
-                        <TableCell>
-                            <Badge variant={statusVariant[cert.status]}>{cert.status}</Badge>
-                        </TableCell>
-                        <TableCell>{cert.responsible}</TableCell>
-                        <TableCell>{cert.createdAt.toLocaleDateString()}</TableCell>
-                        <TableCell className="text-right">
-                           <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <MoreHorizontal className="h-4 w-4" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem asChild><Link href={`/dashboard/certifications/${cert.id}`}>Ver Detalles</Link></DropdownMenuItem>
-                                    <DropdownMenuItem>Descargar PDF</DropdownMenuItem>
-                                    <DropdownMenuItem>Imprimir</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        </TableCell>
-                    </TableRow>
-                    ))}
+                      </TableRow>
+                    ) : (
+                      mockCertifications.map((cert) => (
+                      <TableRow key={cert.id} className="hover:bg-muted/50">
+                          <TableCell className="font-medium max-w-xs truncate">
+                              <Link href={`/dashboard/certifications/${cert.id}`} className="hover:underline">
+                                  {cert.title}
+                              </Link>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline">{categoryLabels[cert.categoryId] || 'Desconocida'}</Badge>
+                          </TableCell>
+                          <TableCell>
+                              <Badge variant={statusVariant[cert.status]}>{cert.status}</Badge>
+                          </TableCell>
+                          <TableCell>{cert.responsible}</TableCell>
+                          <TableCell>{cert.createdAt.toLocaleDateString()}</TableCell>
+                          <TableCell className="text-right">
+                            <DropdownMenu>
+                                  <DropdownMenuTrigger asChild>
+                                      <Button variant="ghost" size="icon">
+                                          <MoreHorizontal className="h-4 w-4" />
+                                      </Button>
+                                  </DropdownMenuTrigger>
+                                  <DropdownMenuContent>
+                                      <DropdownMenuItem asChild><Link href={`/dashboard/certifications/${cert.id}`}>Ver Detalles</Link></DropdownMenuItem>
+                                      <DropdownMenuItem>Descargar PDF</DropdownMenuItem>
+                                      <DropdownMenuItem>Imprimir</DropdownMenuItem>
+                                  </DropdownMenuContent>
+                              </DropdownMenu>
+                          </TableCell>
+                      </TableRow>
+                      ))
+                    )}
                 </TableBody>
                 </Table>
             </CardContent>

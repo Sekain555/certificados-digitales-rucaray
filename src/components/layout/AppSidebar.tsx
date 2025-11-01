@@ -48,7 +48,7 @@ export function AppSidebar() {
             <span className="sr-only">Rucaray</span>
           </Link>
           <NavLink href="/dashboard" icon={Home} label="Dashboard" />
-          <NavLink href="/dashboard/certifications" icon={FileText} label="Historial" />
+          <NavLink href="/dashboard/certifications" icon={FileText} label="Certificaciones" />
           {user?.role === 'admin' && (
             <NavLink href="/dashboard/categories" icon={Folder} label="Categorías" />
           )}
