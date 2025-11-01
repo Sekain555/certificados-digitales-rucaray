@@ -1,7 +1,9 @@
 import type { ComponentProps } from 'react';
 import Image from 'next/image';
 
-const RucarayLogo = (props: ComponentProps<typeof Image>) => (
+type RucarayLogoProps = Omit<ComponentProps<typeof Image>, 'src' | 'alt' | 'width' | 'height'>;
+
+const RucarayLogo = (props: RucarayLogoProps) => (
   <Image
     src="/logo-rucaray.png"
     alt="Rucaray Logo"
