@@ -188,6 +188,15 @@ export default function HigieneInspectionPage() {
       });
       return;
     }
+     if (!user?.uid) {
+      toast({
+        variant: "destructive",
+        title: "Error de autenticación",
+        description: "No se ha podido identificar al usuario. Por favor, inicie sesión de nuevo.",
+      });
+      return;
+    }
+
     setIsSending(true);
     try {
       const recordData = {
@@ -205,7 +214,7 @@ export default function HigieneInspectionPage() {
           verification: verificationSignature,
         },
         items: itemStates,
-        createdBy: user?.uid,
+        createdBy: user.uid,
         createdAt: new Date(),
       };
 
