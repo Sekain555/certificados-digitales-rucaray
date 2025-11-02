@@ -32,6 +32,7 @@ import { SignaturePad } from "@/components/certifications/SignaturePad";
 import { inspectionItemsBySection } from "@/lib/higiene-data";
 import RucarayLogo from "@/components/RucarayLogo";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 
 type ComplianceStatus = "cumple" | "no cumple" | "no aplica";
 type SignatureType = 'record' | 'action' | 'verification';
@@ -43,6 +44,7 @@ interface ItemState {
 
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
+  const { user } = useAuth();
   const [inspectionDate, setInspectionDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -87,6 +89,8 @@ export default function HigieneInspectionPage() {
     setStartTime(santiagoTime);
     setEndTime(santiagoTime);
   }, []);
+  
+  const hasHighPrivileges = user?.role === 'admin' || user?.role === 'jefe' || user?.role === 'supervisor';
 
   const handleComplianceChange = (
     itemId: string,
@@ -117,12 +121,30 @@ export default function HigieneInspectionPage() {
         setVerificationSignature(signature);
         break;
     }
-    console.log(`Saving ${type} signature...`, signature.substring(0, 40) + "...");
+    console.log(`Saving ${type} signature...`);
     toast({
       title: "Firma guardada",
       description: "La firma se ha añadido al registro.",
     });
   };
+
+  const handleDeleteSignature = (type: SignatureType) => {
+     switch (type) {
+      case 'record':
+        setRecordSignature(null);
+        break;
+      case 'action':
+        setActionSignature(null);
+        break;
+      case 'verification':
+        setVerificationSignature(null);
+        break;
+    }
+    toast({
+      title: "Firma eliminada",
+      variant: "destructive"
+    });
+  }
 
   const isFormComplete = 
     recordResponsible.trim() !== '' &&
@@ -274,15 +296,30 @@ export default function HigieneInspectionPage() {
         <CardContent className="grid md:grid-cols-3 gap-8">
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable Registro</h4>
-                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'record')} />
+                <SignaturePad 
+                    signatureUrl={recordSignature}
+                    onSave={(sig) => handleSaveSignature(sig, 'record')} 
+                    onDelete={() => handleDeleteSignature('record')}
+                    canEdit={hasHighPrivileges}
+                />
             </div>
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable Acción Correctiva</h4>
-                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'action')} />
+                 <SignaturePad 
+                    signatureUrl={actionSignature}
+                    onSave={(sig) => handleSaveSignature(sig, 'action')} 
+                    onDelete={() => handleDeleteSignature('action')}
+                    canEdit={hasHighPrivileges}
+                />
             </div>
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable de Verificación</h4>
-                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'verification')} />
+                 <SignaturePad 
+                    signatureUrl={verificationSignature}
+                    onSave={(sig) => handleSaveSignature(sig, 'verification')} 
+                    onDelete={() => handleDeleteSignature('verification')}
+                    canEdit={hasHighPrivileges}
+                />
             </div>
         </CardContent>
       </Card>
