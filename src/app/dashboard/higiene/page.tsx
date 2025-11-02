@@ -61,7 +61,7 @@ export default function HigieneInspectionPage() {
   useEffect(() => {
     const now = new Date();
     
-    // Get local date parts
+    // Get local date parts and format to YYYY-MM-DD
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
     const day = now.getDate().toString().padStart(2, '0');
@@ -150,9 +150,13 @@ export default function HigieneInspectionPage() {
             <Label htmlFor="end-time">Hora de Término</Label>
             <Input id="end-time" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
           </div>
-          <div className="space-y-2 md:col-span-2">
-            <Label htmlFor="execution-responsible">Responsable de Ejecución</Label>
-            <Input id="execution-responsible" placeholder="Nombre completo" />
+          <div className="space-y-2">
+            <Label htmlFor="record-responsible">Responsable Registro</Label>
+            <Input id="record-responsible" placeholder="Nombre completo" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="action-responsible">Responsable Acción Correctiva</Label>
+            <Input id="action-responsible" placeholder="Nombre completo" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="verification-responsible">Responsable de Verificación</Label>
@@ -241,9 +245,19 @@ export default function HigieneInspectionPage() {
             <CardTitle>Firmas de Responsables</CardTitle>
             <CardDescription>Las firmas son requeridas para validar y completar el registro.</CardDescription>
         </CardHeader>
-        <CardContent className="grid md:grid-cols-2 gap-8">
-            <SignaturePad onSave={handleSaveSignature} />
-            <SignaturePad onSave={handleSaveSignature} />
+        <CardContent className="grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 className="font-medium text-center mb-2">Firma Responsable Registro</h4>
+                <SignaturePad onSave={handleSaveSignature} />
+            </div>
+            <div>
+                <h4 className="font-medium text-center mb-2">Firma Responsable Acción Correctiva</h4>
+                <SignaturePad onSave={handleSaveSignature} />
+            </div>
+            <div>
+                <h4 className="font-medium text-center mb-2">Firma Responsable de Verificación</h4>
+                <SignaturePad onSave={handleSaveSignature} />
+            </div>
         </CardContent>
       </Card>
 
