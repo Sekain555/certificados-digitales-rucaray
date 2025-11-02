@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface SignaturePadProps {
-  signatureUrl: string | null;
+  signatureUrl?: string | null;
   onSave: (signature: string) => void;
   onDelete: () => void;
   canEdit: boolean;
@@ -61,6 +61,8 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
   };
   
   const canvasHeight = simple ? "aspect-video w-full" : "h-48";
+  const buttonSize = simple ? "sm" : "default";
+  const textSize = simple ? "text-xs" : "text-sm";
 
   if (!isEditing && signatureUrl) {
     return (
@@ -70,18 +72,18 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
             src={signatureUrl}
             alt="Firma guardada"
             fill
-            objectFit="contain"
+            style={{ objectFit: 'contain' }}
             className="rounded-md"
           />
         </div>
         {canEdit && (
           <div className="flex justify-end gap-2">
-            <Button variant="outline" size={simple ? "sm" : "default"} onClick={handleEdit}>
-              <Pencil className="mr-2 h-4 w-4" />
-              Editar Firma
+            <Button variant="outline" size={buttonSize} onClick={handleEdit} className={textSize}>
+              <Pencil className="mr-1 h-3 w-3" />
+              Editar
             </Button>
-            <Button variant="destructive" size={simple ? "sm" : "default"} onClick={onDelete}>
-                <Trash2 className="mr-2 h-4 w-4" />
+            <Button variant="destructive" size={buttonSize} onClick={onDelete} className={textSize}>
+                <Trash2 className="mr-1 h-3 w-3" />
                 Eliminar
             </Button>
           </div>
@@ -110,18 +112,18 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
           />
       </div>
       <div className="flex justify-end gap-2">
-          {signatureUrl && (
-            <Button variant="ghost" size={simple ? "sm" : "default"} onClick={() => setIsEditing(false)}>
-              <X className="mr-2 h-4 w-4" />
+          {signatureUrl && !simple && (
+            <Button variant="ghost" size={buttonSize} onClick={() => setIsEditing(false)} className={textSize}>
+              <X className="mr-1 h-3 w-3" />
               Cancelar
             </Button>
           )}
-          <Button variant="outline" size={simple ? "sm" : "default"} onClick={clear} disabled={!isSigned}>
-              <Eraser className="mr-2 h-4 w-4" />
+          <Button variant="outline" size={buttonSize} onClick={clear} disabled={!isSigned} className={textSize}>
+              <Eraser className="mr-1 h-3 w-3" />
               Limpiar
           </Button>
-          <Button size={simple ? "sm" : "default"} onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
-              <Save className="mr-2 h-4 w-4" />
+          <Button size={buttonSize} onClick={save} disabled={!isSigned} className={cn("bg-green-600 hover:bg-green-700", textSize)}>
+              <Save className="mr-1 h-3 w-3" />
               Guardar
           </Button>
       </div>
