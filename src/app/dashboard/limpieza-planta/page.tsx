@@ -19,6 +19,8 @@ import RucarayLogo from "@/components/RucarayLogo";
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, Trash2, Loader2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Combobox } from "@/components/ui/combobox";
+import { mockSectors, mockProducts, mockResponsible } from "@/lib/limpieza-planta-data";
 
 interface CleaningActivity {
     id: number;
@@ -181,11 +183,25 @@ export default function LimpiezaPlantaPage() {
                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                  <div className="space-y-2">
                                      <Label htmlFor={`sector-${activity.id}`} className="text-xs text-muted-foreground">Sector</Label>
-                                     <Input id={`sector-${activity.id}`} placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
+                                     <Combobox
+                                        options={mockSectors}
+                                        selectedValue={activity.sector}
+                                        onSelectValue={(val) => handleActivityChange(activity.id, 'sector', val)}
+                                        placeholder="Seleccionar sector..."
+                                        searchPlaceholder="Buscar sector..."
+                                        noResultsText="No se encontró."
+                                    />
                                  </div>
                                  <div className="space-y-2">
                                      <Label htmlFor={`sanit-prod-${activity.id}`} className="text-xs text-muted-foreground">Producto Sanit.</Label>
-                                     <Input id={`sanit-prod-${activity.id}`} placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
+                                     <Combobox
+                                        options={mockProducts}
+                                        selectedValue={activity.sanitizacionProducto}
+                                        onSelectValue={(val) => handleActivityChange(activity.id, 'sanitizacionProducto', val)}
+                                        placeholder="Seleccionar producto..."
+                                        searchPlaceholder="Buscar producto..."
+                                        noResultsText="No se encontró."
+                                    />
                                  </div>
                                  <div className="space-y-2">
                                      <Label htmlFor={`sanit-dosis-${activity.id}`} className="text-xs text-muted-foreground">Dosis Sanit.</Label>
@@ -193,7 +209,14 @@ export default function LimpiezaPlantaPage() {
                                  </div>
                                  <div className="space-y-2">
                                      <Label htmlFor={`resp-name-${activity.id}`} className="text-xs text-muted-foreground">Nombre Responsable</Label>
-                                     <Input id={`resp-name-${activity.id}`} placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
+                                     <Combobox
+                                        options={mockResponsible}
+                                        selectedValue={activity.responsibleName}
+                                        onSelectValue={(val) => handleActivityChange(activity.id, 'responsibleName', val)}
+                                        placeholder="Seleccionar responsable..."
+                                        searchPlaceholder="Buscar responsable..."
+                                        noResultsText="No se encontró."
+                                    />
                                  </div>
                                  
                                   <div className="space-y-2">
@@ -218,11 +241,11 @@ export default function LimpiezaPlantaPage() {
                                
                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                                     <div className="space-y-2">
-                                        <Label className="text-xs text-muted-foreground text-center block">Firma Responsable</Label>
+                                    <h4 className="font-medium text-center mb-2">Firma Responsable</h4>
                                         <SignaturePad signatureUrl={activity.signature} onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} onDelete={() => handleDeleteSignature('activityResponsible', activity.id)} canEdit={true} simple />
                                     </div>
                                      <div className="space-y-2">
-                                        <Label className="text-xs text-muted-foreground text-center block">V°B° Supervisor</Label>
+                                        <h4 className="font-medium text-center mb-2">V°B° Supervisor</h4>
                                         <SignaturePad signatureUrl={activity.supervisorSignature} onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} onDelete={() => handleDeleteSignature('activitySupervisor', activity.id)} canEdit={true} simple />
                                     </div>
                                </div>
