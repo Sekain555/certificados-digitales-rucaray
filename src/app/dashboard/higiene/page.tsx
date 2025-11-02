@@ -255,11 +255,11 @@ export default function HigieneInspectionPage() {
           <div className="text-sm p-2">
             <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
               <span className="font-semibold">Codigo</span>
-              <span>:RIH</span>
+              <span>: RIH</span>
             </div>
             <div className="grid grid-cols-[auto_1fr] gap-x-2">
               <span className="font-semibold">Versión</span>
-              <span>:5</span>
+              <span>: 5</span>
             </div>
           </div>
         </div>

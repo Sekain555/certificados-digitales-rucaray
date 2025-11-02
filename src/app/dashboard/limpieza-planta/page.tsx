@@ -149,11 +149,11 @@ export default function LimpiezaPlantaPage() {
                     <div className="text-sm p-2">
                         <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
                             <span className="font-semibold">Codigo</span>
-                            <span>:RLSEP</span>
+                            <span>: RLSEP</span>
                         </div>
                         <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
                             <span className="font-semibold">Versión</span>
-                            <span>:3</span>
+                            <span>: 3</span>
                         </div>
                     </div>
                 </div>

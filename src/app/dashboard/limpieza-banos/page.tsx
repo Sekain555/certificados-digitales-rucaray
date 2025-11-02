@@ -87,7 +87,8 @@ export default function LimpiezaBanosPage() {
                 <div className="grid grid-cols-3">
                     <div className="flex flex-col items-center justify-center p-2 border-r">
                         <RucarayLogo className="h-12 w-auto" />
-                        <p className="font-semibold mt-1 text-center">Packing y Servicios Rucaray S.A.</p>
+                        <p className="font-semibold mt-1 text-center">Rucaray</p>
+                        <p className="text-sm text-center">Planta Los Lirios</p>
                     </div>
                     <div className="flex flex-col items-center justify-center p-2 text-center">
                          <p className="font-semibold">Sistema de Gestión</p>
@@ -98,11 +99,11 @@ export default function LimpiezaBanosPage() {
                     <div className="text-sm p-2">
                         <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
                             <span className="font-semibold">Codigo</span>
-                            <span>:RLSIS</span>
+                            <span>: RLSIS</span>
                         </div>
                         <div className="grid grid-cols-[auto_1fr] gap-x-2">
                             <span className="font-semibold">Versión</span>
-                            <span>:03</span>
+                            <span>: 3</span>
                         </div>
                     </div>
                 </div>
