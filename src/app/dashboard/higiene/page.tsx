@@ -35,6 +35,10 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Combobox } from "@/components/ui/combobox";
 import type { UserProfile, UserRole } from '@/lib/types';
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type ComplianceStatus = "cumple" | "no cumple" | "no aplica";
 type SignatureType = 'record' | 'action' | 'verification';
@@ -55,9 +59,12 @@ const mockUsers: { value: string; label: string; role: UserRole }[] = [
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
   const { user } = useAuth();
+  const router = useRouter();
+  
   const [inspectionDate, setInspectionDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const [recordResponsible, setRecordResponsible] = useState('');
   const [actionResponsible, setActionResponsible] = useState('');
@@ -171,6 +178,55 @@ export default function HigieneInspectionPage() {
   const verificationResponsibleOptions = mockUsers
     .filter(u => ['jefe', 'supervisor', 'admin'].includes(u.role))
     .map(({ value, label }) => ({ value, label }));
+
+  const handleSendRecord = async () => {
+    if (!isFormComplete) {
+      toast({
+        variant: "destructive",
+        title: "Formulario incompleto",
+        description: "Por favor, complete todos los campos y firmas antes de enviar.",
+      });
+      return;
+    }
+    setIsSending(true);
+    try {
+      const recordData = {
+        inspectionDate,
+        startTime,
+        endTime,
+        responsibles: {
+          record: recordResponsible,
+          action: actionResponsible,
+          verification: verificationResponsible,
+        },
+        signatures: {
+          record: recordSignature,
+          action: actionSignature,
+          verification: verificationSignature,
+        },
+        items: itemStates,
+        createdBy: user?.uid,
+        createdAt: new Date(),
+      };
+
+      const docRef = await addDoc(collection(db, "higiene-inspections"), recordData);
+      
+      toast({
+        title: "Registro enviado con éxito",
+        description: `El registro con ID: ${docRef.id} ha sido guardado.`,
+      });
+      router.push("/dashboard/certifications");
+    } catch (error) {
+      console.error("Error al guardar el registro: ", error);
+      toast({
+        variant: "destructive",
+        title: "Error al enviar el registro",
+        description: "Hubo un problema al guardar los datos. Por favor, inténtelo de nuevo.",
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -339,7 +395,7 @@ export default function HigieneInspectionPage() {
                     signatureUrl={recordSignature}
                     onSave={(sig) => handleSaveSignature(sig, 'record')} 
                     onDelete={() => handleDeleteSignature('record')}
-                    canEdit={hasHighPrivileges}
+                    canEdit={hasHighPrivileges || !recordSignature}
                 />
             </div>
             <div>
@@ -348,7 +404,7 @@ export default function HigieneInspectionPage() {
                     signatureUrl={actionSignature}
                     onSave={(sig) => handleSaveSignature(sig, 'action')} 
                     onDelete={() => handleDeleteSignature('action')}
-                    canEdit={hasHighPrivileges}
+                    canEdit={hasHighPrivileges || !actionSignature}
                 />
             </div>
             <div>
@@ -357,15 +413,18 @@ export default function HigieneInspectionPage() {
                     signatureUrl={verificationSignature}
                     onSave={(sig) => handleSaveSignature(sig, 'verification')} 
                     onDelete={() => handleDeleteSignature('verification')}
-                    canEdit={hasHighPrivileges}
+                    canEdit={hasHighPrivileges || !verificationSignature}
                 />
             </div>
         </CardContent>
       </Card>
 
       <div className="flex justify-center gap-4">
-        <Button variant="outline">Guardar como borrador</Button>
-        <Button className="bg-green-600 hover:bg-green-700" disabled={!isFormComplete}>Enviar Registro</Button>
+        <Button variant="outline" disabled={isSending}>Guardar como borrador</Button>
+        <Button className="bg-green-600 hover:bg-green-700" disabled={!isFormComplete || isSending} onClick={handleSendRecord}>
+          {isSending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Enviar Registro
+        </Button>
         <Button variant="secondary" disabled={!isFormComplete}>Descargar PDF</Button>
       </div>
     </div>

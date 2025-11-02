@@ -69,7 +69,7 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
           <Image
             src={signatureUrl}
             alt="Firma guardada"
-            layout="fill"
+            fill
             objectFit="contain"
             className="rounded-md"
           />
@@ -90,6 +90,15 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
     );
   }
 
+  // Only render the signature pad if canEdit is true
+  if (!canEdit) {
+    return (
+      <div className={cn("rounded-lg border bg-muted/50 flex items-center justify-center", canvasHeight)}>
+        <p className="text-sm text-muted-foreground">Firma pendiente</p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full space-y-2">
       <div className={cn("rounded-lg border bg-white", canvasHeight)}>
@@ -101,7 +110,7 @@ export function SignaturePad({ signatureUrl, onSave, onDelete, canEdit, simple =
           />
       </div>
       <div className="flex justify-end gap-2">
-          {signatureUrl && canEdit && (
+          {signatureUrl && (
             <Button variant="ghost" size={simple ? "sm" : "default"} onClick={() => setIsEditing(false)}>
               <X className="mr-2 h-4 w-4" />
               Cancelar
