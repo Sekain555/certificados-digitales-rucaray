@@ -172,116 +172,62 @@ export default function LimpiezaPlantaPage() {
             <Card>
                 <CardHeader>
                     <CardTitle>Sectores</CardTitle>
-                    <CardDescription>Complete una fila por cada sector. La fecha es general para todo el registro.</CardDescription>
+                    <CardDescription>Complete una tarjeta por cada sector. La fecha es general para todo el registro.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {/* Responsive Grid Header (visible on md screens and up) */}
-                    <div className="hidden md:grid md:grid-cols-[1fr_90px_90px_1fr_1fr_1fr_1.5fr_1.2fr_1.5fr_auto] gap-4 items-center p-2 font-semibold text-xs text-muted-foreground border-b mb-4 text-center">
-                        <div>Sector</div>
-                        <div>Retiro Basura</div>
-                        <div>Lavado</div>
-                        <div>Producto Sanit.</div>
-                        <div>Dosis Sanit.</div>
-                        <div>Responsable</div>
-                        <div>Firma Responsable</div>
-                        <div>Observación</div>
-                        <div>V°B° Supervisor</div>
-                        <div className="w-8"></div>
-                    </div>
-
-                    {/* Activities List */}
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                         {activities.map((activity, index) => (
-                             <div key={activity.id} className="md:grid md:grid-cols-[1fr_90px_90px_1fr_1fr_1fr_1.5fr_1.2fr_1.5fr_auto] md:gap-2 items-start md:border-b md:pb-2">
-
-                                {/* Mobile Card Layout */}
-                                <div className="p-4 border rounded-lg md:hidden space-y-4">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <Label htmlFor={`sector-mob-${activity.id}`} className="text-xs text-muted-foreground">Sector</Label>
-                                            <Input id={`sector-mob-${activity.id}`} placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
-                                        </div>
-                                        <Button variant="ghost" size="icon" onClick={() => handleRemoveRow(activity.id)} disabled={activities.length <= 1}>
-                                            <Trash2 className="h-4 w-4 text-destructive" />
-                                        </Button>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label className="text-xs text-muted-foreground">Retiro Basura</Label>
-                                            <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="flex gap-4">
-                                                <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`retiro-si-mob-${activity.id}`} /><Label htmlFor={`retiro-si-mob-${activity.id}`}>Si</Label></div>
-                                                <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`retiro-no-mob-${activity.id}`} /><Label htmlFor={`retiro-no-mob-${activity.id}`}>No</Label></div>
-                                            </RadioGroup>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label className="text-xs text-muted-foreground">Lavado</Label>
-                                            <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="flex gap-4">
-                                                <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`lavado-si-mob-${activity.id}`} /><Label htmlFor={`lavado-si-mob-${activity.id}`}>Si</Label></div>
-                                                <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`lavado-no-mob-${activity.id}`} /><Label htmlFor={`lavado-no-mob-${activity.id}`}>No</Label></div>
-                                            </RadioGroup>
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor={`sanit-prod-mob-${activity.id}`} className="text-xs text-muted-foreground">Producto Sanit.</Label>
-                                            <Input id={`sanit-prod-mob-${activity.id}`} placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor={`sanit-dosis-mob-${activity.id}`} className="text-xs text-muted-foreground">Dosis Sanit.</Label>
-                                            <Input id={`sanit-dosis-mob-${activity.id}`} placeholder="Dosis" value={activity.sanitizacionDosis} onChange={e => handleActivityChange(activity.id, 'sanitizacionDosis', e.target.value)} />
-                                        </div>
-                                    </div>
-                                     <div className="space-y-2">
-                                        <Label htmlFor={`resp-name-mob-${activity.id}`} className="text-xs text-muted-foreground">Nombre Responsable</Label>
-                                        <Input id={`resp-name-mob-${activity.id}`} placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
-                                    </div>
+                             <div key={activity.id} className="p-4 border rounded-lg space-y-4">
+                               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                 <div className="space-y-2">
+                                     <Label htmlFor={`sector-${activity.id}`} className="text-xs text-muted-foreground">Sector</Label>
+                                     <Input id={`sector-${activity.id}`} placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
+                                 </div>
+                                 <div className="space-y-2">
+                                     <Label htmlFor={`sanit-prod-${activity.id}`} className="text-xs text-muted-foreground">Producto Sanit.</Label>
+                                     <Input id={`sanit-prod-${activity.id}`} placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
+                                 </div>
+                                 <div className="space-y-2">
+                                     <Label htmlFor={`sanit-dosis-${activity.id}`} className="text-xs text-muted-foreground">Dosis Sanit.</Label>
+                                     <Input id={`sanit-dosis-${activity.id}`} placeholder="Dosis" value={activity.sanitizacionDosis} onChange={e => handleActivityChange(activity.id, 'sanitizacionDosis', e.target.value)} />
+                                 </div>
+                                 <div className="space-y-2">
+                                     <Label htmlFor={`resp-name-${activity.id}`} className="text-xs text-muted-foreground">Nombre Responsable</Label>
+                                     <Input id={`resp-name-${activity.id}`} placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
+                                 </div>
+                                 
+                                  <div className="space-y-2">
+                                     <Label className="text-xs text-muted-foreground">Retiro Basura</Label>
+                                     <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="flex gap-4 pt-2">
+                                         <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`retiro-si-${activity.id}`} /><Label htmlFor={`retiro-si-${activity.id}`}>Si</Label></div>
+                                         <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`retiro-no-${activity.id}`} /><Label htmlFor={`retiro-no-${activity.id}`}>No</Label></div>
+                                     </RadioGroup>
+                                 </div>
+                                 <div className="space-y-2">
+                                     <Label className="text-xs text-muted-foreground">Lavado</Label>
+                                     <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="flex gap-4 pt-2">
+                                         <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`lavado-si-${activity.id}`} /><Label htmlFor={`lavado-si-${activity.id}`}>Si</Label></div>
+                                         <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`lavado-no-${activity.id}`} /><Label htmlFor={`lavado-no-${activity.id}`}>No</Label></div>
+                                     </RadioGroup>
+                                 </div>
+                                 <div className="space-y-2 md:col-span-2">
+                                     <Label htmlFor={`obs-${activity.id}`} className="text-xs text-muted-foreground">Observación</Label>
+                                     <Textarea id={`obs-${activity.id}`} placeholder="Observaciones..." value={activity.observation} onChange={e => handleActivityChange(activity.id, 'observation', e.target.value)} className="min-h-[40px]" />
+                                 </div>
+                               </div>
+                               
+                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                                     <div className="space-y-2">
-                                        <Label className="text-xs text-muted-foreground">Firma Responsable</Label>
+                                        <Label className="text-xs text-muted-foreground text-center block">Firma Responsable</Label>
                                         <SignaturePad signatureUrl={activity.signature} onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} onDelete={() => handleDeleteSignature('activityResponsible', activity.id)} canEdit={true} simple />
                                     </div>
                                      <div className="space-y-2">
-                                        <Label className="text-xs text-muted-foreground">V°B° Supervisor</Label>
+                                        <Label className="text-xs text-muted-foreground text-center block">V°B° Supervisor</Label>
                                         <SignaturePad signatureUrl={activity.supervisorSignature} onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} onDelete={() => handleDeleteSignature('activitySupervisor', activity.id)} canEdit={true} simple />
                                     </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor={`obs-mob-${activity.id}`} className="text-xs text-muted-foreground">Observación</Label>
-                                        <Textarea id={`obs-mob-${activity.id}`} placeholder="Observaciones..." value={activity.observation} onChange={e => handleActivityChange(activity.id, 'observation', e.target.value)} className="min-h-[60px]" />
-                                    </div>
-                                </div>
+                               </div>
 
-                                {/* Desktop Table Row Layout */}
-                                <div className="hidden md:block">
-                                    <Input placeholder="Ej: Packing" value={activity.sector} onChange={e => handleActivityChange(activity.id, 'sector', e.target.value)} />
-                                </div>
-                                <div className="hidden md:flex md:items-center md:justify-center">
-                                    <RadioGroup value={activity.retiroBasura ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'retiroBasura', val)} className="flex gap-2">
-                                        <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`retiro-si-${activity.id}`} /><Label htmlFor={`retiro-si-${activity.id}`}>Si</Label></div>
-                                        <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`retiro-no-${activity.id}`} /><Label htmlFor={`retiro-no-${activity.id}`}>No</Label></div>
-                                    </RadioGroup>
-                                </div>
-                                 <div className="hidden md:flex md:items-center md:justify-center">
-                                    <RadioGroup value={activity.lavado ?? ""} onValueChange={(val) => handleActivityChange(activity.id, 'lavado', val)} className="flex gap-2">
-                                        <div className="flex items-center space-x-1"><RadioGroupItem value="si" id={`lavado-si-${activity.id}`} /><Label htmlFor={`lavado-si-${activity.id}`}>Si</Label></div>
-                                        <div className="flex items-center space-x-1"><RadioGroupItem value="no" id={`lavado-no-${activity.id}`} /><Label htmlFor={`lavado-no-${activity.id}`}>No</Label></div>
-                                    </RadioGroup>
-                                </div>
-                                <div className="hidden md:block">
-                                    <Input placeholder="Producto" value={activity.sanitizacionProducto} onChange={e => handleActivityChange(activity.id, 'sanitizacionProducto', e.target.value)} />
-                                </div>
-                                <div className="hidden md:block">
-                                    <Input placeholder="Dosis" value={activity.sanitizacionDosis} onChange={e => handleActivityChange(activity.id, 'sanitizacionDosis', e.target.value)} />
-                                </div>
-                                <div className="hidden md:block">
-                                    <Input placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
-                                </div>
-                                <div className="hidden md:block">
-                                    <SignaturePad signatureUrl={activity.signature} onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} onDelete={() => handleDeleteSignature('activityResponsible', activity.id)} canEdit={true} simple />
-                                </div>
-                                <div className="hidden md:block">
-                                    <Textarea placeholder="Observaciones..." value={activity.observation} onChange={e => handleActivityChange(activity.id, 'observation', e.target.value)} className="min-h-[60px]" />
-                                </div>
-                                <div className="hidden md:block">
-                                    <SignaturePad signatureUrl={activity.supervisorSignature} onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} onDelete={() => handleDeleteSignature('activitySupervisor', activity.id)} canEdit={true} simple />
-                                </div>
-                                <div className="hidden md:flex items-center justify-center">
+                               <div className="flex justify-end">
                                     <Button variant="ghost" size="icon" onClick={() => handleRemoveRow(activity.id)} disabled={activities.length <= 1}>
                                         <Trash2 className="h-4 w-4 text-destructive" />
                                     </Button>
@@ -291,35 +237,8 @@ export default function LimpiezaPlantaPage() {
                     </div>
                     <Button variant="outline" size="sm" onClick={handleAddRow} className="mt-4">
                         <PlusCircle className="mr-2 h-4 w-4" />
-                        Agregar nueva fila
+                        Agregar nuevo sector
                     </Button>
-                </CardContent>
-            </Card>
-
-            <Card>
-                 <CardHeader>
-                    <CardTitle>Firmas de Cierre</CardTitle>
-                    <CardDescription>Firmas requeridas para finalizar y aprobar el registro.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid md:grid-cols-2 gap-8">
-                     <div>
-                        <h4 className="font-medium text-center mb-2">Firma Elaborador</h4>
-                        <SignaturePad
-                            signatureUrl={elaboradorSignature}
-                            onSave={(sig) => handleSaveSignature(sig, 'elaborador')}
-                            onDelete={() => handleDeleteSignature('elaborador')}
-                            canEdit={true}
-                        />
-                    </div>
-                     <div>
-                        <h4 className="font-medium text-center mb-2">Firma Jefe de Planta</h4>
-                         <SignaturePad
-                            signatureUrl={jefeSignature}
-                            onSave={(sig) => handleSaveSignature(sig, 'jefe')}
-                            onDelete={() => handleDeleteSignature('jefe')}
-                            canEdit={true}
-                        />
-                    </div>
                 </CardContent>
             </Card>
 
@@ -351,3 +270,5 @@ export default function LimpiezaPlantaPage() {
         </div>
     );
 }
+
+    
