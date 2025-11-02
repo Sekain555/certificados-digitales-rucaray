@@ -428,6 +428,25 @@ export default function HigieneInspectionPage() {
         </CardContent>
       </Card>
 
+      <Card as="footer">
+        <CardContent className="p-2 text-xs text-muted-foreground">
+            <div className="grid grid-cols-3 divide-x">
+                <div className="p-2">
+                    <p className="font-semibold">Elaborador:</p>
+                    <p>Fecha: Junio 2007</p>
+                </div>
+                <div className="p-2">
+                      <p className="font-semibold">Equipo Sistema de Gestión</p>
+                      <p>Actualizacion: Agosto 2022</p>
+                </div>
+                  <div className="p-2">
+                      <p className="font-semibold">Aprobador: Jefe Operaciones</p>
+                      <p>Pag: 1 de 1</p>
+                </div>
+            </div>
+        </CardContent>
+      </Card>
+
       <div className="flex justify-center gap-4">
         <Button variant="outline" disabled={isSending}>Guardar como borrador</Button>
         <Button className="bg-green-600 hover:bg-green-700" disabled={!isFormComplete || isSending} onClick={handleSendRecord}>
