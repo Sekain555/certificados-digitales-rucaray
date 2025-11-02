@@ -34,6 +34,7 @@ import RucarayLogo from "@/components/RucarayLogo";
 import { useToast } from "@/hooks/use-toast";
 
 type ComplianceStatus = "cumple" | "no cumple" | "no aplica";
+type SignatureType = 'record' | 'action' | 'verification';
 
 interface ItemState {
   compliance: ComplianceStatus;
@@ -45,6 +46,14 @@ export default function HigieneInspectionPage() {
   const [inspectionDate, setInspectionDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+
+  const [recordResponsible, setRecordResponsible] = useState('');
+  const [actionResponsible, setActionResponsible] = useState('');
+  const [verificationResponsible, setVerificationResponsible] = useState('');
+
+  const [recordSignature, setRecordSignature] = useState<string | null>(null);
+  const [actionSignature, setActionSignature] = useState<string | null>(null);
+  const [verificationSignature, setVerificationSignature] = useState<string | null>(null);
 
   const [itemStates, setItemStates] = useState<Record<string, ItemState>>(
     () => {
@@ -61,7 +70,6 @@ export default function HigieneInspectionPage() {
   useEffect(() => {
     const now = new Date();
     
-    // Get local date parts and format to YYYY-MM-DD
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
     const day = now.getDate().toString().padStart(2, '0');
@@ -69,7 +77,6 @@ export default function HigieneInspectionPage() {
     
     setInspectionDate(localDateString);
 
-    // Set time in HH:MM format for Santiago
     const santiagoTime = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
@@ -98,13 +105,32 @@ export default function HigieneInspectionPage() {
     }));
   };
 
-  const handleSaveSignature = (signature: string) => {
-    console.log("Saving signature...", signature.substring(0, 40) + "...");
+  const handleSaveSignature = (signature: string, type: SignatureType) => {
+    switch (type) {
+      case 'record':
+        setRecordSignature(signature);
+        break;
+      case 'action':
+        setActionSignature(signature);
+        break;
+      case 'verification':
+        setVerificationSignature(signature);
+        break;
+    }
+    console.log(`Saving ${type} signature...`, signature.substring(0, 40) + "...");
     toast({
       title: "Firma guardada",
       description: "La firma se ha añadido al registro.",
     });
   };
+
+  const isFormComplete = 
+    recordResponsible.trim() !== '' &&
+    actionResponsible.trim() !== '' &&
+    verificationResponsible.trim() !== '' &&
+    recordSignature !== null &&
+    actionSignature !== null &&
+    verificationSignature !== null;
 
   return (
     <div className="space-y-6">
@@ -152,15 +178,15 @@ export default function HigieneInspectionPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="record-responsible">Responsable Registro</Label>
-            <Input id="record-responsible" placeholder="Nombre completo" />
+            <Input id="record-responsible" placeholder="Nombre completo" value={recordResponsible} onChange={(e) => setRecordResponsible(e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="action-responsible">Responsable Acción Correctiva</Label>
-            <Input id="action-responsible" placeholder="Nombre completo" />
+            <Input id="action-responsible" placeholder="Nombre completo" value={actionResponsible} onChange={(e) => setActionResponsible(e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="verification-responsible">Responsable de Verificación</Label>
-            <Input id="verification-responsible" placeholder="Nombre completo" />
+            <Input id="verification-responsible" placeholder="Nombre completo" value={verificationResponsible} onChange={(e) => setVerificationResponsible(e.target.value)} />
           </div>
         </CardContent>
       </Card>
@@ -248,22 +274,22 @@ export default function HigieneInspectionPage() {
         <CardContent className="grid md:grid-cols-3 gap-8">
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable Registro</h4>
-                <SignaturePad onSave={handleSaveSignature} />
+                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'record')} />
             </div>
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable Acción Correctiva</h4>
-                <SignaturePad onSave={handleSaveSignature} />
+                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'action')} />
             </div>
             <div>
                 <h4 className="font-medium text-center mb-2">Firma Responsable de Verificación</h4>
-                <SignaturePad onSave={handleSaveSignature} />
+                <SignaturePad onSave={(sig) => handleSaveSignature(sig, 'verification')} />
             </div>
         </CardContent>
       </Card>
 
       <div className="flex justify-center gap-4">
         <Button variant="outline">Guardar como borrador</Button>
-        <Button className="bg-green-600 hover:bg-green-700">Enviar Registro</Button>
+        <Button className="bg-green-600 hover:bg-green-700" disabled={!isFormComplete}>Enviar Registro</Button>
         <Button variant="secondary">Descargar PDF</Button>
       </div>
     </div>
