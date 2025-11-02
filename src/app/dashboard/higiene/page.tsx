@@ -82,18 +82,28 @@ export default function HigieneInspectionPage() {
 
   return (
     <div className="space-y-6">
-      <header className="rounded-lg border bg-card text-card-foreground shadow-sm p-4">
-        <div className="flex items-center justify-between">
-            <RucarayLogo className="h-16 w-auto" />
-            <div className="text-center">
-                <h1 className="text-lg font-bold font-headline text-primary">
-                    REGISTRO DE INSPECCIÓN DE HIGIENE, CALIDAD E INOCUIDAD – UVA
-                </h1>
-                <p className="text-xs text-muted-foreground">
-                    Código: RIH | Versión: 5 | Sistema de Gestión
-                </p>
-            </div>
-            <div className="w-12"></div>
+      <header className="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div className="grid grid-cols-3">
+          <div className="flex flex-col items-center justify-center p-2 border-r">
+            <RucarayLogo className="h-12 w-auto" />
+            <p className="font-semibold mt-1 text-center">Packing y Servicios Rucaray</p>
+          </div>
+          <div className="flex flex-col items-center justify-center p-2 text-center">
+            <p className="font-semibold">Sistema de Gestión</p>
+            <h1 className="text-lg font-bold font-headline mt-2 text-primary">
+              REGISTRO DE INSPECCIÓN DE HIGIENE, CALIDAD E INOCUIDAD – UVA
+            </h1>
+          </div>
+          <div className="text-sm p-2">
+              <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
+                  <span className="font-semibold">Codigo</span>
+                  <span>:RIH</span>
+              </div>
+              <div className="grid grid-cols-[auto_1fr] gap-x-2">
+                  <span className="font-semibold">Versión</span>
+                  <span>:5</span>
+              </div>
+          </div>
         </div>
       </header>
 
