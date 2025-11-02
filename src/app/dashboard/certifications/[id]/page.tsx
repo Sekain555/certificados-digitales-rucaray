@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import {
@@ -171,7 +172,15 @@ export default function CertificationDetailPage() {
                 </CardContent>
             </Card>
 
-            <SignaturePad onSave={handleSaveSignature} />
+            <Card>
+              <CardHeader>
+                <CardTitle>Añadir Firma</CardTitle>
+                <CardDescription>Dibuja tu firma en el recuadro para añadirla al registro.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SignaturePad onSave={handleSaveSignature} />
+              </CardContent>
+            </Card>
         </div>
         <div className="grid auto-rows-max items-start gap-4 lg:gap-8">
           <Card>

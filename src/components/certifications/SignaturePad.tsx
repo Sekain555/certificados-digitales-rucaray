@@ -4,7 +4,6 @@
 import { useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Eraser, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -35,60 +34,29 @@ export function SignaturePad({ onSave, simple = false }: SignaturePadProps) {
         setIsSigned(!sigPad.current.isEmpty());
     }
   }
-
-  if (simple) {
-    return (
-      <div className="w-full space-y-2">
-        <div className="rounded-lg border bg-white aspect-video w-full">
-            <SignatureCanvas
-              ref={sigPad}
-              penColor="black"
-              canvasProps={{ className: "w-full h-full rounded-md" }}
-              onEnd={handleDraw}
-            />
-        </div>
-        <div className="flex justify-end gap-2">
-            <Button variant="outline" size="sm" onClick={clear} disabled={!isSigned}>
-                <Eraser className="mr-2 h-4 w-4" />
-                Limpiar
-            </Button>
-            <Button size="sm" onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
-                <Save className="mr-2 h-4 w-4" />
-                Guardar
-            </Button>
-        </div>
-      </div>
-    );
-  }
+  
+  const canvasHeight = simple ? "aspect-video w-full" : "h-48";
 
   return (
-    <Card className="max-w-2xl mx-auto w-full">
-      <CardHeader>
-        <CardTitle>Firmar Registro</CardTitle>
-        <CardDescription>Dibuja tu firma en el recuadro para validar el registro.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="rounded-lg border bg-white">
+    <div className="w-full space-y-2">
+      <div className={cn("rounded-lg border bg-white", canvasHeight)}>
           <SignatureCanvas
             ref={sigPad}
             penColor="black"
-            canvasProps={{ className: "w-full h-48 rounded-md" }}
+            canvasProps={{ className: "w-full h-full rounded-md" }}
             onEnd={handleDraw}
           />
-        </div>
-      </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline" onClick={clear} disabled={!isSigned}>
-            <Eraser className="mr-2 h-4 w-4" />
-            Limpiar
-        </Button>
-        <Button onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
-            <Save className="mr-2 h-4 w-4" />
-            Guardar Firma
-        </Button>
-      </CardFooter>
-    </Card>
+      </div>
+      <div className="flex justify-end gap-2">
+          <Button variant="outline" size={simple ? "sm" : "default"} onClick={clear} disabled={!isSigned}>
+              <Eraser className="mr-2 h-4 w-4" />
+              Limpiar
+          </Button>
+          <Button size={simple ? "sm" : "default"} onClick={save} disabled={!isSigned} className="bg-green-600 hover:bg-green-700">
+              <Save className="mr-2 h-4 w-4" />
+              Guardar
+          </Button>
+      </div>
+    </div>
   );
 }
-
-    
