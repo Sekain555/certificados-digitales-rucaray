@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     Card,
     CardContent,
@@ -39,9 +39,15 @@ export default function LimpiezaPlantaPage() {
         { id: 1, sector: '', retiroBasura: null, lavado: null, sanitizacionProducto: '', sanitizacionDosis: '', responsibleName: '', signature: null, observation: '', supervisorSignature: null }
     ]);
     const [registroDate, setRegistroDate] = useState('');
-    const [elaboradorSignature, setElaboradorSignature] = useState<string | null>(null);
-    const [jefeSignature, setJefeSignature] = useState<string | null>(null);
     const [isSending, setIsSending] = useState(false);
+
+    useEffect(() => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        setRegistroDate(`${year}-${month}-${day}`);
+    }, []);
 
 
     const handleAddRow = () => {
@@ -73,13 +79,6 @@ export default function LimpiezaPlantaPage() {
                     activity.id === activityId ? { ...activity, supervisorSignature: signature } : activity
                 ));
             }
-        } else {
-            if (type === 'elaborador') {
-                setElaboradorSignature(signature);
-            }
-            if (type === 'jefe') {
-                setJefeSignature(signature);
-            }
         }
 
         console.log(`Saving ${type} signature...`);
@@ -89,11 +88,9 @@ export default function LimpiezaPlantaPage() {
         });
     };
 
-    const isFormComplete = 
+    const isFormComplete =
         registroDate.trim() !== '' &&
-        elaboradorSignature !== null &&
-        jefeSignature !== null &&
-        activities.every(act => 
+        activities.every(act =>
             act.sector.trim() !== '' &&
             act.retiroBasura !== null &&
             act.lavado !== null &&
@@ -139,7 +136,7 @@ export default function LimpiezaPlantaPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="mb-6">
-                        <Label htmlFor="registro-date">Fecha General del Registro</Label>
+                        <Label htmlFor="registro-date">Fecha de Registro</Label>
                         <Input id="registro-date" type="date" className="w-full md:w-1/3" value={registroDate} onChange={e => setRegistroDate(e.target.value)} />
                     </div>
 
@@ -202,12 +199,12 @@ export default function LimpiezaPlantaPage() {
                                 <div className="grid grid-cols-2 md:block gap-2">
                                     <Label htmlFor={`resp-name-${activity.id}`} className="font-semibold md:hidden">Responsable</Label>
                                     <Input id={`resp-name-${activity.id}`} placeholder="Nombre" value={activity.responsibleName} onChange={e => handleActivityChange(activity.id, 'responsibleName', e.target.value)} />
-                                    _</div>
+                                    </div>
 
                                 {/* Firma Responsable */}
                                 <div className="grid grid-cols-1 gap-2">
                                     <Label className="font-semibold md:hidden">Firma Responsable</Label>
-                                    <SignaturePad signatureUrl={activity.signature} onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} onDelete={() => {}} canEdit={true} simple />
+                                    <SignaturePad signatureUrl={activity.signature} onSave={(sig) => handleSaveSignature(sig, 'activityResponsible', activity.id)} onDelete={() => { }} canEdit={true} simple />
                                 </div>
 
                                 {/* Observacion */}
@@ -219,7 +216,7 @@ export default function LimpiezaPlantaPage() {
                                 {/* V°B° Supervisor */}
                                 <div className="grid grid-cols-1 gap-2">
                                     <Label className="font-semibold md:hidden">V°B° Supervisor</Label>
-                                    <SignaturePad signatureUrl={activity.supervisorSignature} onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} onDelete={() => {}} canEdit={true} simple />
+                                    <SignaturePad signatureUrl={activity.supervisorSignature} onSave={(sig) => handleSaveSignature(sig, 'activitySupervisor', activity.id)} onDelete={() => { }} canEdit={true} simple />
                                 </div>
 
                                 {/* Acciones */}
@@ -238,37 +235,22 @@ export default function LimpiezaPlantaPage() {
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Firmas de Aprobación Final</CardTitle>
-                    <CardDescription>Firmas del elaborador y aprobador final del registro.</CardDescription>
-                </CardHeader>
-                <CardContent className="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h4 className="font-medium text-center mb-2">Firma Elaborador</h4>
-                        <SignaturePad signatureUrl={elaboradorSignature} onSave={(sig) => handleSaveSignature(sig, 'elaborador')} onDelete={() => setElaboradorSignature(null)} canEdit={true} />
-                    </div>
-                    <div>
-                        <h4 className="font-medium text-center mb-2">Firma Aprobador (Jefe de Operaciones)</h4>
-                        <SignaturePad signatureUrl={jefeSignature} onSave={(sig) => handleSaveSignature(sig, 'jefe')} onDelete={() => setJefeSignature(null)} canEdit={true} />
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Card as="footer">
-                <CardContent className="p-2 text-xs text-muted-foreground">
-                    <div className="grid grid-cols-2 divide-x">
-                        <div className="p-2">
-                            <p className="font-semibold">Elaborado por: Equipo Sistema de Gestión</p>
-                            <p>Fecha: Junio 2007</p>
+            <footer>
+                <Card>
+                    <CardContent className="p-2 text-xs text-muted-foreground">
+                        <div className="grid grid-cols-2 divide-x">
+                            <div className="p-2">
+                                <p className="font-semibold">Elaborado por: Equipo Sistema de Gestión</p>
+                                <p>Fecha: Junio 2007</p>
+                            </div>
+                            <div className="p-2">
+                                <p className="font-semibold">Aprobado por: Jefe Operaciones</p>
+                                <p>Actualizacion: Agosto 2022</p>
+                            </div>
                         </div>
-                        <div className="p-2">
-                            <p className="font-semibold">Aprobado por: Jefe Operaciones</p>
-                            <p>Actualizacion: Agosto 2022</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            </footer>
 
             <div className="flex justify-center gap-4">
                 <Button variant="outline" disabled={isSending}>Guardar borrador</Button>
