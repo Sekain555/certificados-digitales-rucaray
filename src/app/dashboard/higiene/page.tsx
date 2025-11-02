@@ -43,6 +43,7 @@ interface ItemState {
 
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
+  const [inspectionDate, setInspectionDate] = useState(new Date().toISOString().split('T')[0]);
   const [itemStates, setItemStates] = useState<Record<string, ItemState>>(
     () => {
       const initialState: Record<string, ItemState> = {};
@@ -91,7 +92,7 @@ export default function HigieneInspectionPage() {
           <div className="flex flex-col items-center justify-center p-2 text-center">
             <p className="font-semibold">Sistema de Gestión</p>
             <h1 className="text-lg font-bold font-headline mt-2 text-primary">
-              REGISTRO DE INSPECCIÓN DE HIGIENE, CALIDAD E INOCUIDAD – UVA
+              REGISTRO DE INSPECCIÓN DE HIGIENE
             </h1>
           </div>
           <div className="text-sm p-2">
@@ -114,7 +115,7 @@ export default function HigieneInspectionPage() {
         <CardContent className="grid md:grid-cols-3 gap-6">
           <div className="space-y-2">
             <Label htmlFor="inspection-date">Fecha de Inspección</Label>
-            <Input id="inspection-date" type="date" />
+            <Input id="inspection-date" type="date" value={inspectionDate} onChange={(e) => setInspectionDate(e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="start-time">Hora de Inicio</Label>
