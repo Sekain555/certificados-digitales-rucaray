@@ -60,11 +60,17 @@ export default function HigieneInspectionPage() {
 
   useEffect(() => {
     const now = new Date();
-    // Set date in YYYY-MM-DD format
-    setInspectionDate(now.toISOString().split('T')[0]);
+    
+    // Get local date parts
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const localDateString = `${year}-${month}-${day}`;
+    
+    setInspectionDate(localDateString);
 
     // Set time in HH:MM format for Santiago
-    const santiagoTime = new Intl.DateTimeFormat('en-CA', { // 'en-CA' gives YYYY-MM-DD, but we only need time part from toLocaleTimeString
+    const santiagoTime = new Intl.DateTimeFormat('en-GB', {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
