@@ -33,6 +33,7 @@ import { inspectionItemsBySection } from "@/lib/higiene-data";
 import RucarayLogo from "@/components/RucarayLogo";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { Combobox } from "@/components/ui/combobox";
 
 type ComplianceStatus = "cumple" | "no cumple" | "no aplica";
 type SignatureType = 'record' | 'action' | 'verification';
@@ -41,6 +42,14 @@ interface ItemState {
   compliance: ComplianceStatus;
   notes: string;
 }
+
+const mockUsers = [
+    { value: 'Admin Rucaray', label: 'Admin Rucaray' },
+    { value: 'Supervisor de Calidad', label: 'Supervisor de Calidad' },
+    { value: 'Juan Trabajador', label: 'Juan Trabajador' },
+    { value: 'Jefe de Planta', label: 'Jefe de Planta' },
+    { value: 'Encargada de Bodega', label: 'Encargada de Bodega' },
+];
 
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
@@ -199,16 +208,37 @@ export default function HigieneInspectionPage() {
             <Input id="end-time" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="record-responsible">Responsable Registro</Label>
-            <Input id="record-responsible" placeholder="Nombre completo" value={recordResponsible} onChange={(e) => setRecordResponsible(e.target.value)} />
+            <Label>Responsable Registro</Label>
+            <Combobox
+                options={mockUsers}
+                selectedValue={recordResponsible}
+                onSelectValue={setRecordResponsible}
+                placeholder="Seleccionar o escribir responsable..."
+                searchPlaceholder="Buscar responsable..."
+                noResultsText="No se encontró el responsable."
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="action-responsible">Responsable Acción Correctiva</Label>
-            <Input id="action-responsible" placeholder="Nombre completo" value={actionResponsible} onChange={(e) => setActionResponsible(e.target.value)} />
+            <Label>Responsable Acción Correctiva</Label>
+            <Combobox
+                options={mockUsers}
+                selectedValue={actionResponsible}
+                onSelectValue={setActionResponsible}
+                placeholder="Seleccionar o escribir responsable..."
+                searchPlaceholder="Buscar responsable..."
+                noResultsText="No se encontró el responsable."
+            />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="verification-responsible">Responsable de Verificación</Label>
-            <Input id="verification-responsible" placeholder="Nombre completo" value={verificationResponsible} onChange={(e) => setVerificationResponsible(e.target.value)} />
+            <Label>Responsable de Verificación</Label>
+            <Combobox
+                options={mockUsers}
+                selectedValue={verificationResponsible}
+                onSelectValue={setVerificationResponsible}
+                placeholder="Seleccionar o escribir responsable..."
+                searchPlaceholder="Buscar responsable..."
+                noResultsText="No se encontró el responsable."
+            />
           </div>
         </CardContent>
       </Card>
