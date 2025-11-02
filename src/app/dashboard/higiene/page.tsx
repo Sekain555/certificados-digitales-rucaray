@@ -290,7 +290,7 @@ export default function HigieneInspectionPage() {
       <div className="flex justify-center gap-4">
         <Button variant="outline">Guardar como borrador</Button>
         <Button className="bg-green-600 hover:bg-green-700" disabled={!isFormComplete}>Enviar Registro</Button>
-        <Button variant="secondary">Descargar PDF</Button>
+        <Button variant="secondary" disabled={!isFormComplete}>Descargar PDF</Button>
       </div>
     </div>
   );
