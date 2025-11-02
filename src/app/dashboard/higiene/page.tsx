@@ -49,18 +49,18 @@ interface ItemState {
 }
 
 const mockUsers: { value: string; label: string; role: UserRole }[] = [
-    { value: 'Admin Rucaray', label: 'Admin Rucaray', role: 'admin' },
-    { value: 'Supervisor de Calidad', label: 'Supervisor de Calidad', role: 'supervisor' },
-    { value: 'Juan Trabajador', label: 'Juan Trabajador', role: 'trabajador' },
-    { value: 'Jefe de Planta', label: 'Jefe de Planta', role: 'jefe' },
-    { value: 'Encargada de Bodega', label: 'Encargada de Bodega', role: 'encargada' },
+  { value: 'Admin Rucaray', label: 'Admin Rucaray', role: 'admin' },
+  { value: 'Supervisor de Calidad', label: 'Supervisor de Calidad', role: 'supervisor' },
+  { value: 'Juan Trabajador', label: 'Juan Trabajador', role: 'trabajador' },
+  { value: 'Jefe de Planta', label: 'Jefe de Planta', role: 'jefe' },
+  { value: 'Encargada de Bodega', label: 'Encargada de Bodega', role: 'encargada' },
 ];
 
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
   const { user } = useAuth();
   const router = useRouter();
-  
+
   const [inspectionDate, setInspectionDate] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -88,12 +88,12 @@ export default function HigieneInspectionPage() {
 
   useEffect(() => {
     const now = new Date();
-    
+
     const year = now.getFullYear();
     const month = (now.getMonth() + 1).toString().padStart(2, '0');
     const day = now.getDate().toString().padStart(2, '0');
     const localDateString = `${year}-${month}-${day}`;
-    
+
     setInspectionDate(localDateString);
 
     const santiagoTime = new Intl.DateTimeFormat('en-GB', {
@@ -102,11 +102,11 @@ export default function HigieneInspectionPage() {
       hour12: false,
       timeZone: 'America/Santiago'
     }).format(now);
-    
+
     setStartTime(santiagoTime);
     setEndTime(santiagoTime);
   }, []);
-  
+
   const hasHighPrivileges = user?.role === 'admin' || user?.role === 'jefe' || user?.role === 'supervisor';
 
   const handleComplianceChange = (
@@ -146,7 +146,7 @@ export default function HigieneInspectionPage() {
   };
 
   const handleDeleteSignature = (type: SignatureType) => {
-     switch (type) {
+    switch (type) {
       case 'record':
         setRecordSignature(null);
         break;
@@ -163,14 +163,14 @@ export default function HigieneInspectionPage() {
     });
   }
 
-  const isFormComplete = 
+  const isFormComplete =
     recordResponsible.trim() !== '' &&
     actionResponsible.trim() !== '' &&
     verificationResponsible.trim() !== '' &&
     recordSignature !== null &&
     actionSignature !== null &&
     verificationSignature !== null;
-    
+
   const recordResponsibleOptions = mockUsers.map(({ value, label }) => ({ value, label }));
   const actionResponsibleOptions = mockUsers
     .filter(u => ['trabajador', 'supervisor'].includes(u.role))
@@ -188,7 +188,7 @@ export default function HigieneInspectionPage() {
       });
       return;
     }
-     if (!user?.uid) {
+    if (!user?.uid) {
       toast({
         variant: "destructive",
         title: "Error de autenticación",
@@ -219,7 +219,7 @@ export default function HigieneInspectionPage() {
       };
 
       const docRef = await addDoc(collection(db, "higiene-inspections"), recordData);
-      
+
       toast({
         title: "Registro enviado con éxito",
         description: `El registro con ID: ${docRef.id} ha sido guardado.`,
@@ -239,7 +239,7 @@ export default function HigieneInspectionPage() {
 
   return (
     <div className="space-y-6">
-       <header className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <header className="rounded-lg border bg-card text-card-foreground shadow-sm">
         <div className="grid grid-cols-3">
           <div className="flex flex-col items-center justify-center p-2 border-r">
             <RucarayLogo className="h-12 w-auto" />
@@ -252,14 +252,14 @@ export default function HigieneInspectionPage() {
             </h1>
           </div>
           <div className="text-sm p-2">
-              <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
-                  <span className="font-semibold">Codigo</span>
-                  <span>:RIH</span>
-              </div>
-              <div className="grid grid-cols-[auto_1fr] gap-x-2">
-                  <span className="font-semibold">Versión</span>
-                  <span>:5</span>
-              </div>
+            <div className="grid grid-cols-[auto_1fr] gap-x-2 border-b">
+              <span className="font-semibold">Codigo</span>
+              <span>:RIH</span>
+            </div>
+            <div className="grid grid-cols-[auto_1fr] gap-x-2">
+              <span className="font-semibold">Versión</span>
+              <span>:5</span>
+            </div>
           </div>
         </div>
       </header>
@@ -284,34 +284,34 @@ export default function HigieneInspectionPage() {
           <div className="space-y-2">
             <Label>Responsable Registro</Label>
             <Combobox
-                options={recordResponsibleOptions}
-                selectedValue={recordResponsible}
-                onSelectValue={setRecordResponsible}
-                placeholder="Seleccionar o escribir responsable..."
-                searchPlaceholder="Buscar responsable..."
-                noResultsText="No se encontró el responsable."
+              options={recordResponsibleOptions}
+              selectedValue={recordResponsible}
+              onSelectValue={setRecordResponsible}
+              placeholder="Seleccionar o escribir responsable..."
+              searchPlaceholder="Buscar responsable..."
+              noResultsText="No se encontró el responsable."
             />
           </div>
           <div className="space-y-2">
             <Label>Responsable Acción Correctiva</Label>
             <Combobox
-                options={actionResponsibleOptions}
-                selectedValue={actionResponsible}
-                onSelectValue={setActionResponsible}
-                placeholder="Seleccionar o escribir responsable..."
-                searchPlaceholder="Buscar responsable..."
-                noResultsText="No se encontró el responsable."
+              options={actionResponsibleOptions}
+              selectedValue={actionResponsible}
+              onSelectValue={setActionResponsible}
+              placeholder="Seleccionar o escribir responsable..."
+              searchPlaceholder="Buscar responsable..."
+              noResultsText="No se encontró el responsable."
             />
           </div>
           <div className="space-y-2">
             <Label>Responsable de Verificación</Label>
             <Combobox
-                options={verificationResponsibleOptions}
-                selectedValue={verificationResponsible}
-                onSelectValue={setVerificationResponsible}
-                placeholder="Seleccionar o escribir responsable..."
-                searchPlaceholder="Buscar responsable..."
-                noResultsText="No se encontró el responsable."
+              options={verificationResponsibleOptions}
+              selectedValue={verificationResponsible}
+              onSelectValue={setVerificationResponsible}
+              placeholder="Seleccionar o escribir responsable..."
+              searchPlaceholder="Buscar responsable..."
+              noResultsText="No se encontró el responsable."
             />
           </div>
         </CardContent>
@@ -376,7 +376,7 @@ export default function HigieneInspectionPage() {
                               <Textarea
                                 placeholder="Anotar observaciones..."
                                 value={itemStates[item.id]?.notes}
-                                onChange={(e) => handleNotesChange(item.id, e.target.value) }
+                                onChange={(e) => handleNotesChange(item.id, e.target.value)}
                                 className="min-h-[40px]"
                               />
                             </TableCell>
@@ -391,61 +391,57 @@ export default function HigieneInspectionPage() {
           </Accordion>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader>
-            <CardTitle>Firmas de Responsables</CardTitle>
-            <CardDescription>Las firmas son requeridas para validar y completar el registro.</CardDescription>
+          <CardTitle>Firmas de Responsables</CardTitle>
+          <CardDescription>Las firmas son requeridas para validar y completar el registro.</CardDescription>
         </CardHeader>
         <CardContent className="grid md:grid-cols-3 gap-8">
-            <div>
-                <h4 className="font-medium text-center mb-2">Firma Responsable Registro</h4>
-                <SignaturePad 
-                    signatureUrl={recordSignature}
-                    onSave={(sig) => handleSaveSignature(sig, 'record')} 
-                    onDelete={() => handleDeleteSignature('record')}
-                    canEdit={hasHighPrivileges || !recordSignature}
-                />
-            </div>
-            <div>
-                <h4 className="font-medium text-center mb-2">Firma Responsable Acción Correctiva</h4>
-                 <SignaturePad 
-                    signatureUrl={actionSignature}
-                    onSave={(sig) => handleSaveSignature(sig, 'action')} 
-                    onDelete={() => handleDeleteSignature('action')}
-                    canEdit={hasHighPrivileges || !actionSignature}
-                />
-            </div>
-            <div>
-                <h4 className="font-medium text-center mb-2">Firma Responsable de Verificación</h4>
-                 <SignaturePad 
-                    signatureUrl={verificationSignature}
-                    onSave={(sig) => handleSaveSignature(sig, 'verification')} 
-                    onDelete={() => handleDeleteSignature('verification')}
-                    canEdit={hasHighPrivileges || !verificationSignature}
-                />
-            </div>
+          <div>
+            <h4 className="font-medium text-center mb-2">Firma Responsable Registro</h4>
+            <SignaturePad
+              signatureUrl={recordSignature}
+              onSave={(sig) => handleSaveSignature(sig, 'record')}
+              onDelete={() => handleDeleteSignature('record')}
+              canEdit={hasHighPrivileges || !recordSignature}
+            />
+          </div>
+          <div>
+            <h4 className="font-medium text-center mb-2">Firma Responsable Acción Correctiva</h4>
+            <SignaturePad
+              signatureUrl={actionSignature}
+              onSave={(sig) => handleSaveSignature(sig, 'action')}
+              onDelete={() => handleDeleteSignature('action')}
+              canEdit={hasHighPrivileges || !actionSignature}
+            />
+          </div>
+          <div>
+            <h4 className="font-medium text-center mb-2">Firma Responsable de Verificación</h4>
+            <SignaturePad
+              signatureUrl={verificationSignature}
+              onSave={(sig) => handleSaveSignature(sig, 'verification')}
+              onDelete={() => handleDeleteSignature('verification')}
+              canEdit={hasHighPrivileges || !verificationSignature}
+            />
+          </div>
         </CardContent>
       </Card>
 
       <footer>
         <Card>
-            <CardContent className="p-2 text-xs text-muted-foreground">
-                <div className="grid grid-cols-3 divide-x">
-                    <div className="p-2">
-                        <p className="font-semibold">Elaborador:</p>
-                        <p>Fecha: Junio 2007</p>
-                    </div>
-                    <div className="p-2">
-                        <p className="font-semibold">Equipo Sistema de Gestión</p>
-                        <p>Actualizacion: Agosto 2022</p>
-                    </div>
-                    <div className="p-2">
-                        <p className="font-semibold">Aprobador: Jefe Operaciones</p>
-                        <p>Pag: 1 de 1</p>
-                    </div>
-                </div>
-            </CardContent>
+          <CardContent className="p-2 text-xs text-muted-foreground">
+            <div className="grid grid-cols-2 divide-x">
+              <div className="p-2">
+                <p className="font-semibold">Elaborado por: Equipo Sistema de Gestión</p>
+                <p>Fecha: Junio 2007</p>
+              </div>
+              <div className="p-2">
+                <p className="font-semibold">Aprobado por: Jefe Operaciones</p>
+                <p>Actualizacion: Agosto 2022</p>
+              </div>
+            </div>
+          </CardContent>
         </Card>
       </footer>
 
