@@ -34,6 +34,7 @@ import RucarayLogo from "@/components/RucarayLogo";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { Combobox } from "@/components/ui/combobox";
+import type { UserProfile, UserRole } from '@/lib/types';
 
 type ComplianceStatus = "cumple" | "no cumple" | "no aplica";
 type SignatureType = 'record' | 'action' | 'verification';
@@ -43,12 +44,12 @@ interface ItemState {
   notes: string;
 }
 
-const mockUsers = [
-    { value: 'Admin Rucaray', label: 'Admin Rucaray' },
-    { value: 'Supervisor de Calidad', label: 'Supervisor de Calidad' },
-    { value: 'Juan Trabajador', label: 'Juan Trabajador' },
-    { value: 'Jefe de Planta', label: 'Jefe de Planta' },
-    { value: 'Encargada de Bodega', label: 'Encargada de Bodega' },
+const mockUsers: { value: string; label: string; role: UserRole }[] = [
+    { value: 'Admin Rucaray', label: 'Admin Rucaray', role: 'admin' },
+    { value: 'Supervisor de Calidad', label: 'Supervisor de Calidad', role: 'supervisor' },
+    { value: 'Juan Trabajador', label: 'Juan Trabajador', role: 'trabajador' },
+    { value: 'Jefe de Planta', label: 'Jefe de Planta', role: 'jefe' },
+    { value: 'Encargada de Bodega', label: 'Encargada de Bodega', role: 'encargada' },
 ];
 
 export default function HigieneInspectionPage() {
@@ -162,6 +163,14 @@ export default function HigieneInspectionPage() {
     recordSignature !== null &&
     actionSignature !== null &&
     verificationSignature !== null;
+    
+  const recordResponsibleOptions = mockUsers.map(({ value, label }) => ({ value, label }));
+  const actionResponsibleOptions = mockUsers
+    .filter(u => ['trabajador', 'supervisor'].includes(u.role))
+    .map(({ value, label }) => ({ value, label }));
+  const verificationResponsibleOptions = mockUsers
+    .filter(u => ['jefe', 'supervisor', 'admin'].includes(u.role))
+    .map(({ value, label }) => ({ value, label }));
 
   return (
     <div className="space-y-6">
@@ -210,7 +219,7 @@ export default function HigieneInspectionPage() {
           <div className="space-y-2">
             <Label>Responsable Registro</Label>
             <Combobox
-                options={mockUsers}
+                options={recordResponsibleOptions}
                 selectedValue={recordResponsible}
                 onSelectValue={setRecordResponsible}
                 placeholder="Seleccionar o escribir responsable..."
@@ -221,7 +230,7 @@ export default function HigieneInspectionPage() {
           <div className="space-y-2">
             <Label>Responsable Acción Correctiva</Label>
             <Combobox
-                options={mockUsers}
+                options={actionResponsibleOptions}
                 selectedValue={actionResponsible}
                 onSelectValue={setActionResponsible}
                 placeholder="Seleccionar o escribir responsable..."
@@ -232,7 +241,7 @@ export default function HigieneInspectionPage() {
           <div className="space-y-2">
             <Label>Responsable de Verificación</Label>
             <Combobox
-                options={mockUsers}
+                options={verificationResponsibleOptions}
                 selectedValue={verificationResponsible}
                 onSelectValue={setVerificationResponsible}
                 placeholder="Seleccionar o escribir responsable..."
