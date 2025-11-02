@@ -1,12 +1,11 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -43,7 +42,10 @@ interface ItemState {
 
 export default function HigieneInspectionPage() {
   const { toast } = useToast();
-  const [inspectionDate, setInspectionDate] = useState(new Date().toISOString().split('T')[0]);
+  const [inspectionDate, setInspectionDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
   const [itemStates, setItemStates] = useState<Record<string, ItemState>>(
     () => {
       const initialState: Record<string, ItemState> = {};
@@ -55,6 +57,23 @@ export default function HigieneInspectionPage() {
       return initialState;
     }
   );
+
+  useEffect(() => {
+    const now = new Date();
+    // Set date in YYYY-MM-DD format
+    setInspectionDate(now.toISOString().split('T')[0]);
+
+    // Set time in HH:MM format for Santiago
+    const santiagoTime = new Intl.DateTimeFormat('en-CA', { // 'en-CA' gives YYYY-MM-DD, but we only need time part from toLocaleTimeString
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'America/Santiago'
+    }).format(now);
+    
+    setStartTime(santiagoTime);
+    setEndTime(santiagoTime);
+  }, []);
 
   const handleComplianceChange = (
     itemId: string,
@@ -83,7 +102,7 @@ export default function HigieneInspectionPage() {
 
   return (
     <div className="space-y-6">
-      <header className="rounded-lg border bg-card text-card-foreground shadow-sm">
+       <header className="rounded-lg border bg-card text-card-foreground shadow-sm">
         <div className="grid grid-cols-3">
           <div className="flex flex-col items-center justify-center p-2 border-r">
             <RucarayLogo className="h-12 w-auto" />
@@ -119,11 +138,11 @@ export default function HigieneInspectionPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="start-time">Hora de Inicio</Label>
-            <Input id="start-time" type="time" />
+            <Input id="start-time" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label htmlFor="end-time">Hora de Término</Label>
-            <Input id="end-time" type="time" />
+            <Input id="end-time" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
           </div>
           <div className="space-y-2 md:col-span-2">
             <Label htmlFor="execution-responsible">Responsable de Ejecución</Label>
